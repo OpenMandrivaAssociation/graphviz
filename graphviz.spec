@@ -25,7 +25,7 @@
 
 %define libname %mklibname graphviz %{major}
 %define develname %mklibname graphviz -d
-%define static %mklibname graphviz -d -s
+%define staticname %mklibname graphviz -d -s
 
 %define lib_ruby %mklibname graphvizruby %{ruby_major}
 %define lib_php %mklibname graphvizphp %{php_major}
@@ -70,6 +70,7 @@ BuildRequires:	swig-devel
 BuildRequires:	tcl-devel >= 8.3.0
 BuildRequires:	tk-devel >= 8.3.0
 BuildRequires:	tk >= 8.3.0
+BuildRequires:	libfontconfig-devel
 %if %build_lua
 BuildRequires:	lua-devel
 %endif
@@ -188,9 +189,10 @@ Static development package for %{name}
 %patch0 -p1
 
 %build
+sh autogen.sh
+
 %configure2_5x \
 	--with-x \
-	--with-curlincludedir=%{_includedir}/curl \
 %if ! %build_java
 	--disable-java \
 %endif
@@ -204,9 +206,14 @@ Static development package for %{name}
 %endif
 	--disable-guile \
 	--disable-sharp \
-	--disable-ocaml
-#
-#   --disable-dependency-tracking
+	--disable-ocaml \
+	--enable-ltdl \
+	--with-pangocairo \
+	--with-gtk \
+	--with-libgd \
+	--with-mng \
+	--disable-io \
+	--disable-dependency-tracking
 
 %make
 
