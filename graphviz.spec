@@ -14,26 +14,37 @@
 %define enable_static 1
 %{?_without_static: %{expand: %%global enable_static 0}}
 
-%define libname %mklibname graphviz 3
-%define lib_ruby %mklibname graphvizruby 0
-%define lib_php %mklibname graphvizphp 0
-%define lib_lua %mklibname graphvizlua 0
-%define lib_python %mklibname graphvizpython 0
-%define lib_perl %mklibname graphvizperl 0
-%define lib_java %mklibname graphvizjava 0
-%define lib_tcl %mklibname graphviztcl 0
+%define major 3
+%define ruby_major 0
+%define php_major 0
+%define lua_major 0
+%define python_major 0
+%define perl_major 0
+%define java_major 0
+%define tcl_major 0
+
+%define libname %mklibname graphviz %{major}
+%define develname %mklibname graphviz -d
+%define static %mklibname graphviz -d -s
+
+%define lib_ruby %mklibname graphvizruby %{ruby_major}
+%define lib_php %mklibname graphvizphp %{php_major}
+%define lib_lua %mklibname graphvizlua %{lua_major}
+%define lib_python %mklibname graphvizpython %{python_major}
+%define lib_perl %mklibname graphvizperl %{perl_major}
+%define lib_java %mklibname graphvizjava %{java_major}
+%define lib_tcl %mklibname graphviztcl %{tcl_major}
 
 
-Name: 		%{name}
+Name:		%{name}
 Version:	%{version}
 Release:	%{release}
 Summary:	Graph visualization tools
-Group: 		Graphics
+Group:		Graphics
 License:	Common Public License
-URL: 		http://www.graphviz.org
-Source: 	%{name}-%{version}.tar.gz
+URL:		http://www.graphviz.org
+Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.bz2
 Patch0:		%{name}-gd.patch
-BuildRequires:	autoconf2.5 >= 2.58
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	freetype2-devel
@@ -51,22 +62,22 @@ BuildRequires:	gnomeui2-devel
 BuildRequires:	zlib-devel
 BuildRequires:	chrpath
 BuildRequires:	libexpat-devel
-BuildRequires:  python-devel
-BuildRequires: 	php-devel
-BuildRequires: 	perl-devel
-BuildRequires: 	ruby-devel
-BuildRequires: 	swig-devel
-BuildRequires: 	tcl-devel >= 8.3.0
-BuildRequires: 	tk-devel >= 8.3.0
+BuildRequires:	python-devel
+BuildRequires:	php-devel
+BuildRequires:	perl-devel
+BuildRequires:	ruby-devel
+BuildRequires:	swig-devel
+BuildRequires:	tcl-devel >= 8.3.0
+BuildRequires:	tk-devel >= 8.3.0
 BuildRequires:	tk >= 8.3.0
 %if %build_lua
-BuildRequires: lua-devel
+BuildRequires:	lua-devel
 %endif
 %if %build_java
-BuildRequires: java-1.4.2-gcj-compat-devel
+BuildRequires:	java-1.4.2-gcj-compat-devel
 %endif
 %py_requires -d
-BuildRoot: %{_tmppath}/%{name}-%{version}
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A collection of tools for the manipulation and layout
@@ -147,7 +158,7 @@ Provides:	java-%{name} = %{version}-%{release}
 This package provides shared library for %{name}.
 %endif
 
-%package -n %{libname}-devel
+%package -n %{develname}
 Group:		Development/Other
 Summary:	Development package for %{name}
 Provides:	%{name}-devel = %{version}-%{release}
@@ -155,45 +166,47 @@ Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	lib64graphviz7-devel
 Obsoletes:	lib64graphviztcl7-devel
 Requires:	%{libname} = %{version}-%{release}
+Obsoletes:	%{libname}-devel
 
-%description -n %{libname}-devel
+%description -n %{develname}
 Development package for %{name}
 
 %if %enable_static
-%package -n %{libname}-static-devel
+%package -n %{staticname}
 Group:		Development/Other
 Summary:	Static development package for %{name}
 Requires:	%{libname}-devel = %{version}-%{release}
 Provides:	%{name}-static-devel = %{version}-%{release}
+Obsoletes:	%{libname}-static-devel
 
-%description -n %{libname}-static-devel
+%description -n %{staticname}
 Static development package for %{name}
 %endif
-
 
 %prep
 %setup -q
 %patch0 -p1
 
 %build
-%configure \
-   --with-x \
-   --with-curlincludedir=%{_includedir}/curl \
+%configure2_5x \
+	--with-x \
+	--with-curlincludedir=%{_includedir}/curl \
 %if ! %build_java
-   --disable-java \
+	--disable-java \
 %endif
 %if ! %build_lua
-   --disable-lua \
+	--disable-lua \
 %endif
 %if ! %enable_static
-   --disable-static \
+	 --disable-static \
 %else
-   --enable-static \
+	--enable-static \
 %endif
-   --disable-guile \
-   --disable-sharp \
-   --disable-ocaml \
-   --disable-dependency-tracking
+	--disable-guile \
+	--disable-sharp \
+	--disable-ocaml
+#
+#   --disable-dependency-tracking
 
 %make
 
@@ -206,8 +219,8 @@ install -d -m 755 %{buildroot}%{_datadir}/doc
 mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
 mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
 
-mkdir -p %{buildroot}/%_sysconfdir/ld.so.conf.d
-echo "%{_libdir}/%{name}" >  %{buildroot}/%_sysconfdir/ld.so.conf.d/%{name}.conf
+mkdir -p %{buildroot}/%{_sysconfdir}/ld.so.conf.d
+echo "%{_libdir}/%{name}" >  %{buildroot}/%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
@@ -237,7 +250,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %defattr(-,root,root)
 %{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_libdir}/graphviz/*.so.*
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{major}*
 
 %if %build_lua
 %files -n %lib_lua
@@ -272,20 +285,18 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %{_libdir}/graphviz/java
 %endif
 
-%files -n %{libname}-devel
+%files -n %{develname}
 %defattr(-,root,root)
 %{_libdir}/pkgconfig/*
 %{_libdir}/graphviz/*.so
 %{_libdir}/graphviz/*.la
 %{_libdir}/*.so
 %{_libdir}/*.la
-%_includedir/graphviz
+%{_includedir}/graphviz
 
 %if %enable_static
-%files -n %{libname}-static-devel
+%files -n %{staticname}
 %defattr(-,root,root)
 %{_libdir}/graphviz/*.a
 %{_libdir}/*.a
 %endif
-
-
