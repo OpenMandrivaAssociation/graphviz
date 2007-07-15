@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.12
-%define release	%mkrel 4
+%define release	%mkrel 5
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -15,6 +15,7 @@
 %{?_without_static: %{expand: %%global enable_static 0}}
 
 %define major 3
+%define oldmajor 2
 %define ruby_major 0
 %define php_major 0
 %define lua_major 0
@@ -168,6 +169,7 @@ Obsoletes:	lib64graphviz7-devel
 Obsoletes:	lib64graphviztcl7-devel
 Requires:	%{libname} = %{version}-%{release}
 Obsoletes:	%{libname}-devel
+Obsoletes:	%mklibname -d %name %oldmajor
 
 %description -n %{develname}
 Development package for %{name}
@@ -176,9 +178,10 @@ Development package for %{name}
 %package -n %{staticname}
 Group:		Development/Other
 Summary:	Static development package for %{name}
-Requires:	%{libname}-devel = %{version}-%{release}
+Requires:	%{develname} = %{version}-%{release}
 Provides:	%{name}-static-devel = %{version}-%{release}
 Obsoletes:	%{libname}-static-devel
+Obsoletes:	%mklibname -d -s %name %oldmajor
 
 %description -n %{staticname}
 Static development package for %{name}
