@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.12
-%define release	%mkrel 6
+%define version	2.14.1
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -14,8 +14,8 @@
 %define enable_static 1
 %{?_without_static: %{expand: %%global enable_static 0}}
 
-%define major 3
-%define oldmajor 2
+%define major 4
+%define oldmajor 3
 %define ruby_major 0
 %define php_major 0
 %define lua_major 0
@@ -45,7 +45,6 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.bz2
-Patch0:		%{name}-gd.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	freetype2-devel
@@ -189,7 +188,6 @@ Static development package for %{name}
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 sh autogen.sh
