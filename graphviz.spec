@@ -78,6 +78,7 @@ BuildRequires:	lua-devel
 BuildRequires:	java-1.4.2-gcj-compat-devel
 %endif
 %py_requires -d
+BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A collection of tools for the manipulation and layout
