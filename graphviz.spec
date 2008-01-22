@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.14.1
-%define release	%mkrel 2
+%define version	2.16.1
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -23,6 +23,8 @@
 %define perl_major 0
 %define java_major 0
 %define tcl_major 0
+%define r_major 0
+%define ocaml_major 0
 
 %define libname %mklibname graphviz %{major}
 %define develname %mklibname graphviz -d
@@ -35,6 +37,8 @@
 %define lib_perl %mklibname graphvizperl %{perl_major}
 %define lib_java %mklibname graphvizjava %{java_major}
 %define lib_tcl %mklibname graphviztcl %{tcl_major}
+%define lib_r %mklibname graphvizr %{r_major}
+%define lib_ocaml %mklibname graphvizocaml %{ocaml_major}
 
 
 Name:		%{name}
@@ -66,6 +70,8 @@ BuildRequires:	python-devel
 BuildRequires:	php-devel
 BuildRequires:	perl-devel
 BuildRequires:	ruby-devel
+BuildRequires:	libRmath-devel
+BuildRequires:	ocaml
 BuildRequires:	swig-devel
 BuildRequires:	tcl-devel >= 8.3.0
 BuildRequires:	tk-devel >= 8.3.0
@@ -159,6 +165,22 @@ Provides:	java-%{name} = %{version}-%{release}
 This package provides shared library for %{name}.
 %endif
 
+%package -n %lib_r
+Group:		System/Libraries
+Summary:	Graphviz bindings for R
+Provides:	r-%{name} = %{version}-%{release}
+
+%description -n %lib_r
+This package provides shared library for %{name}.
+
+%package -n %lib_ocaml
+Group:		System/Libraries
+Summary:	Graphviz bindings for OCaml
+Provides:	ocaml-%{name} = %{version}-%{release}
+
+%description -n %lib_ocaml
+This package provides shared library for %{name}.
+
 %package -n %{develname}
 Group:		Development/Other
 Summary:	Development package for %{name}
@@ -190,7 +212,7 @@ Static development package for %{name}
 %setup -q
 
 %build
-sh autogen.sh
+#sh autogen.sh
 
 %configure2_5x \
 	--with-x \
@@ -205,9 +227,12 @@ sh autogen.sh
 %else
 	--enable-static \
 %endif
+	--disable-python23 \
+	--disable-python24 \
+	--enable-r \
+	--enable-ocaml \
 	--disable-guile \
 	--disable-sharp \
-	--disable-ocaml \
 	--enable-ltdl \
 	--with-pangocairo \
 	--with-gtk \
@@ -273,6 +298,10 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %files -n %lib_python
 %defattr(-,root,root)
 %{_libdir}/graphviz/python
+%{_libdir}/graphviz/python23
+%{_libdir}/graphviz/python24
+%{_libdir}/graphviz/python25
+
 
 %files -n %lib_ruby
 %defattr(-,root,root)
@@ -292,6 +321,14 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %defattr(-,root,root)
 %{_libdir}/graphviz/java
 %endif
+
+%files -n %lib_r
+%defattr(-,root,root)
+%{_libdir}/graphviz/r
+
+%files -n %lib_ocaml
+%defattr(-,root,root)
+%{_libdir}/graphviz/ocaml
 
 %files -n %{develname}
 %defattr(-,root,root)
