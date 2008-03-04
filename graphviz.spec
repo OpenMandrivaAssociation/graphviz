@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.16.1
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
