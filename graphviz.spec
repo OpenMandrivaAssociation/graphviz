@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.16.1
-%define release	%mkrel 2
+%define version	2.18
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -40,7 +40,6 @@
 %define lib_r %mklibname graphvizr %{r_major}
 %define lib_ocaml %mklibname graphvizocaml %{ocaml_major}
 
-
 Name:		%{name}
 Version:	%{version}
 Release:	%{release}
@@ -48,7 +47,7 @@ Summary:	Graph visualization tools
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
-Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.bz2
+Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	freetype2-devel
@@ -297,24 +296,26 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files -n %lib_python
 %defattr(-,root,root)
+%{_libdir}/python*
 %{_libdir}/graphviz/python
 %{_libdir}/graphviz/python23
 %{_libdir}/graphviz/python24
 %{_libdir}/graphviz/python25
 
-
 %files -n %lib_ruby
 %defattr(-,root,root)
+%{_libdir}/ruby
 %{_libdir}/graphviz/ruby
 
 %files -n %lib_perl
 %defattr(-,root,root)
+%{_libdir}/perl*
 %{_libdir}/graphviz/perl
 
 %files -n %lib_tcl
 %defattr(-,root,root)
+%{_libdir}/tcl*
 %{_libdir}/graphviz/tcl
-%{_libdir}/graphviz/pkgIndex.tcl
 
 %if %build_java
 %files -n %lib_java
@@ -324,7 +325,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files -n %lib_r
 %defattr(-,root,root)
-%{_libdir}/graphviz/r
+%{_libdir}/graphviz/R
 
 %files -n %lib_ocaml
 %defattr(-,root,root)
