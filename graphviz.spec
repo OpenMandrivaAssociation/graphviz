@@ -304,12 +304,12 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files -n %lib_ruby
 %defattr(-,root,root)
-%{_libdir}/ruby
+%{_usr}/lib/ruby
 %{_libdir}/graphviz/ruby
 
 %files -n %lib_perl
 %defattr(-,root,root)
-%{_libdir}/perl*
+%{_usr}/lib/perl*
 %{_libdir}/graphviz/perl
 
 %files -n %lib_tcl
