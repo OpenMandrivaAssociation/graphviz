@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.18
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -48,6 +48,7 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
+patch:      graphviz-2.18-RGB_png_imageloading.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	freetype2-devel
@@ -209,10 +210,9 @@ Static development package for %{name}
 
 %prep
 %setup -q
+%patch -p 0
 
 %build
-#sh autogen.sh
-
 %configure2_5x \
 	--with-x \
 %if ! %build_java
