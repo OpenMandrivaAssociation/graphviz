@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.18
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -64,7 +64,6 @@ BuildRequires:	X11-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	gnomeui2-devel
 BuildRequires:	zlib-devel
-BuildRequires:	chrpath
 BuildRequires:	libexpat-devel
 BuildRequires:	python-devel
 BuildRequires:	php-devel
@@ -251,9 +250,6 @@ install -d -m 755 %{buildroot}%{_datadir}/doc
 mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
 mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
 
-mkdir -p %{buildroot}/%{_sysconfdir}/ld.so.conf.d
-echo "%{_libdir}/%{name}" >  %{buildroot}/%{_sysconfdir}/ld.so.conf.d/%{name}.conf
-
 %clean
 rm -rf %{buildroot}
 
@@ -280,7 +276,6 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_sysconfdir}/ld.so.conf.d/%{name}.conf
 %{_libdir}/graphviz/*.so.*
 %{_libdir}/*.so.%{major}*
 
