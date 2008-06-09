@@ -259,9 +259,13 @@ rm -rf %{buildroot}
 %postun
 if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
+%if %mdkversion < 200900
 %post -n %{libname} -p /sbin/ldconfig
+%endif
 
+%if %mdkversion < 200900
 %postun -n %{libname} -p /sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root)
