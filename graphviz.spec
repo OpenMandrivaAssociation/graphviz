@@ -14,6 +14,10 @@
 %define enable_static 1
 %{?_without_static: %{expand: %%global enable_static 0}}
 
+# libgvc_builtins.so doesn't build otherwise
+# https://mailman.research.att.com/pipermail/graphviz-devel/2008/000729.html
+%define _disable_ld_no_undefined 1
+
 %define major 4
 %define oldmajor 3
 %define ruby_major 0
@@ -48,7 +52,8 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
-patch:      graphviz-2.18-RGB_png_imageloading.patch
+patch0:      graphviz-2.18-RGB_png_imageloading.patch
+patch1:      graphviz-2.18-allow-underlinking.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	freetype2-devel
@@ -71,7 +76,6 @@ BuildRequires:	perl-devel
 BuildRequires:	ruby-devel
 BuildRequires:	libRmath-devel
 BuildRequires:	ocaml
-BuildRequires:	swig-devel
 BuildRequires:	tcl-devel >= 8.3.0
 BuildRequires:	tk-devel >= 8.3.0
 BuildRequires:	tk >= 8.3.0
@@ -209,9 +213,11 @@ Static development package for %{name}
 
 %prep
 %setup -q
-%patch -p 0
+%patch0 -p 0
+%patch1 -p 1
 
 %build
+autoreconf
 %configure2_5x \
 	--with-x \
 %if ! %build_java
@@ -292,6 +298,8 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %files -n %lib_php
 %defattr(-,root,root)
 %{_libdir}/graphviz/php
+%{_libdir}/php/modules/gv.so
+%{_datadir}/php/gv.php
 
 %files -n %lib_python
 %defattr(-,root,root)
