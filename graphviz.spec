@@ -64,12 +64,12 @@ BuildRequires:	libcurl-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	libpng-devel
+BuildRequires:	librsvg-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	X11-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
-BuildRequires:	rsvg-devel
 BuildRequires:	gnomeui2-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libexpat-devel
