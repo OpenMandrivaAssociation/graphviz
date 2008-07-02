@@ -56,6 +56,7 @@ patch0:      graphviz-2.18-RGB_png_imageloading.patch
 patch1:      graphviz-2.18-allow-underlinking.patch
 BuildRequires:	bison
 BuildRequires:	flex
+BuildRequires:	swig
 BuildRequires:	freetype2-devel
 BuildRequires:	pango-devel >= 1.10
 BuildRequires:	gd-devel >= 2.0.34
@@ -67,6 +68,9 @@ BuildRequires:	libpng-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	X11-devel
 BuildRequires:	gtk+2-devel
+BuildRequires:	gtkglarea2-devel
+BuildRequires:	gtkglext-devel
+BuildRequires:	rsvg-devel
 BuildRequires:	gnomeui2-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libexpat-devel
@@ -231,10 +235,13 @@ autoreconf
 %else
 	--enable-static \
 %endif
-	--disable-python23 \
-	--disable-python24 \
 	--enable-r \
 	--enable-ocaml \
+	--enable-perl \
+	--enable-php \
+	--enable-python \
+	--disable-python23 \
+	--disable-python24 \
 	--disable-guile \
 	--disable-sharp \
 	--enable-ltdl \
