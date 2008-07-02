@@ -53,7 +53,6 @@ License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
 patch0:      graphviz-2.18-RGB_png_imageloading.patch
-patch1:      graphviz-2.18-allow-underlinking.patch
 BuildRequires:	bison
 BuildRequires:	flex
 BuildRequires:	swig
@@ -218,10 +217,8 @@ Static development package for %{name}
 %prep
 %setup -q
 %patch0 -p 0
-%patch1 -p 1
 
 %build
-autoreconf
 %configure2_5x \
 	--with-x \
 %if ! %build_java
