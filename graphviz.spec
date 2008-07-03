@@ -75,6 +75,7 @@ BuildRequires:	zlib-devel
 BuildRequires:	libexpat-devel
 BuildRequires:	python-devel
 BuildRequires:	php-devel
+BuildRequires:	php-cli
 BuildRequires:	perl-devel
 BuildRequires:	ruby-devel
 BuildRequires:	libRmath-devel
