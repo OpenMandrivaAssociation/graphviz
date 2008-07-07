@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.18
-%define release	%mkrel 3
+%define version	2.20.2
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -52,18 +52,17 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
-patch0:      graphviz-2.18-RGB_png_imageloading.patch
-BuildRequires:	bison
-BuildRequires:	flex
-BuildRequires:	swig
-BuildRequires:	freetype2-devel
-BuildRequires:	pango-devel >= 1.10
+BuildRequires:	bison >= 2.3
+BuildRequires:	flex >= 2.5.4a
+BuildRequires:	swig >= 1.3.29
+BuildRequires:	freetype2-devel >= 2.1.10
+BuildRequires:	pango-devel >= 1.12.4
 BuildRequires:	gd-devel >= 2.0.34
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-devel >= 0.14.5
 BuildRequires:	libcurl-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libltdl-devel
-BuildRequires:	libpng-devel
+BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	librsvg-devel
 BuildRequires:	libstdc++-devel
 BuildRequires:	X11-devel
@@ -71,8 +70,8 @@ BuildRequires:	gtk+2-devel
 BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
 BuildRequires:	gnomeui2-devel
-BuildRequires:	zlib-devel
-BuildRequires:	libexpat-devel
+BuildRequires:	zlib-devel >= 1.2.3
+BuildRequires:	libexpat-devel >= 2.0.0
 BuildRequires:	python-devel
 BuildRequires:	php-devel
 BuildRequires:	php-cli
@@ -83,7 +82,7 @@ BuildRequires:	ocaml
 BuildRequires:	tcl-devel >= 8.3.0
 BuildRequires:	tk-devel >= 8.3.0
 BuildRequires:	tk >= 8.3.0
-BuildRequires:	libfontconfig-devel
+BuildRequires:	libfontconfig-devel >= 2.3.95
 %if %build_lua
 BuildRequires:	lua-devel
 %endif
@@ -217,7 +216,6 @@ Static development package for %{name}
 
 %prep
 %setup -q
-%patch0 -p 0
 
 %build
 %configure2_5x \
@@ -246,7 +244,6 @@ Static development package for %{name}
 	--with-pangocairo \
 	--with-gtk \
 	--with-libgd \
-	--with-mng \
 	--disable-io \
 	--disable-dependency-tracking
 
