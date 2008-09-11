@@ -1,6 +1,8 @@
 %define name	graphviz
 %define version	2.20.2
-%define release	%mkrel 1
+%define release	%mkrel 2
+
+%define _requires_exception 'pear(gv.php)'
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
