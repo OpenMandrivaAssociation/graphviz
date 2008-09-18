@@ -261,8 +261,8 @@ rm -rf %{buildroot}
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_datadir}/doc
-mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
-mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_datadir}/doc/%{name}-doc-%{version}
+cp -pr %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_datadir}/doc/%{name}
+cp -pr %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_datadir}/doc/%{name}
 
 %clean
 rm -rf %{buildroot}
@@ -290,7 +290,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files doc
 %defattr(-,root,root)
-%{_datadir}/doc/%{name}-doc-%{version}
+%{_datadir}/doc/%{name}
 
 %files -n %{libname}
 %defattr(-,root,root)
