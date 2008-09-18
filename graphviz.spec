@@ -19,6 +19,7 @@
 # libgvc_builtins.so doesn't build otherwise
 # https://mailman.research.att.com/pipermail/graphviz-devel/2008/000729.html
 %define _disable_ld_no_undefined 1
+%define _disable_ld_as_needed 1
 
 %define major 4
 %define oldmajor 3
@@ -45,6 +46,7 @@
 %define lib_tcl %mklibname graphviztcl %{tcl_major}
 %define lib_r %mklibname graphvizr %{r_major}
 %define lib_ocaml %mklibname graphvizocaml %{ocaml_major}
+%define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 Name:		%{name}
 Version:	%{version}
@@ -299,6 +301,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %files -n %lib_lua
 %defattr(-,root,root)
 %{_libdir}/graphviz/lua
+%{_libdir}/lua/%{lua_version}/gv.so
 %endif
 
 %files -n %lib_php
