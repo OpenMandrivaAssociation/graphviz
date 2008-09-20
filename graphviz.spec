@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.20.2
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 %define _requires_exception 'pear(gv.php)'
 
@@ -260,9 +260,9 @@ rm -rf %{buildroot}
 %makeinstall_std
 
 # fix documentation
-install -d -m 755 %{buildroot}%{_datadir}/doc
-cp -pr %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_datadir}/doc/%{name}
-cp -pr %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_datadir}/doc/%{name}
+install -d -m 755 %{buildroot}%{_docdir}
+mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_docdir}/%{name}
+mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_docdir}/%{name}
 
 %clean
 rm -rf %{buildroot}
