@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.20.2
-%define release	%mkrel 3
+%define version	2.20.3
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -53,7 +53,7 @@ Summary:	Graph visualization tools
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
-Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.lzma
+Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Patch0:		graphviz-2.20.2-fix-build-using-libgvplugin_neato_layout.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
