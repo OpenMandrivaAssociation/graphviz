@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.20.3
-%define release	%mkrel 3
+%define release	%mkrel 4
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -55,6 +55,11 @@ License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Patch0:		graphviz-2.20.2-fix-build-using-libgvplugin_neato_layout.patch
+# Drops all the gnomeui detection crap, as it's never actually used.
+# Has been submitted upstream - AdamW 2008/11
+Patch1:		graphviz-2.20.3-gnomeui.patch
+# Call xdg-open rather than firefox to open URLs - AdamW 2008/11
+Patch2:		graphviz-2.20.3-xdg.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -219,8 +224,12 @@ Static development package for %{name}
 %prep
 %setup -q
 %patch0 -p1 -b .dot_static
+%patch1 -p1 -b .gnomeui
+%patch2 -p1 -b .xdgopen
 
 %build
+# for patch1
+autoreconf
 %configure2_5x \
 	--with-x \
 %if ! %build_java
