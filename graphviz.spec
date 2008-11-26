@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.20.3
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -72,7 +72,6 @@ BuildRequires:	X11-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
-BuildRequires:	gnomeui2-devel
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	libexpat-devel >= 2.0.0
 BuildRequires:	python-devel
@@ -285,6 +284,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %{_bindir}/*
 %_mandir/man?/*
 %{_datadir}/graphviz
+%{_libdir}/graphviz/*.so.*
 
 %files doc
 %defattr(-,root,root)
@@ -292,7 +292,6 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
 %files -n %{libname}
 %defattr(-,root,root)
-%{_libdir}/graphviz/*.so.*
 %{_libdir}/*.so.%{major}*
 
 %if %build_lua
