@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.20.3
-%define release	%mkrel 4
+%define release	%mkrel 5
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -96,6 +96,7 @@ BuildRequires:	lua-devel
 %if %build_java
 BuildRequires:	java-1.4.2-gcj-compat-devel
 %endif
+Conflicts:	%{_lib}graphviz4 < 2.20.3-3
 %py_requires -d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
