@@ -60,6 +60,8 @@ Patch0:		graphviz-2.20.2-fix-build-using-libgvplugin_neato_layout.patch
 Patch1:		graphviz-2.20.3-gnomeui.patch
 # Call xdg-open rather than firefox to open URLs - AdamW 2008/11
 Patch2:		graphviz-2.20.3-xdg.patch
+# Fix build for Tcl 8.6 (TIP #330, interp->result) - AdamW 2008/12
+Patch3:		graphviz-2.20.3-tcl86.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -227,6 +229,7 @@ Static development package for %{name}
 %patch0 -p1 -b .dot_static
 %patch1 -p1 -b .gnomeui
 %patch2 -p1 -b .xdgopen
+%patch3 -p1 -b .tcl86
 
 %build
 # for patch1
