@@ -99,7 +99,6 @@ BuildRequires:	lua-devel
 BuildRequires:	java-1.4.2-gcj-compat-devel
 %endif
 Conflicts:	%{_lib}graphviz4 < 2.20.3-3
-%py_requires -d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
@@ -142,6 +141,7 @@ This package provides shared library for %{name}.
 Group:		System/Libraries
 Summary:	Graphviz bindings for python
 Provides:	python-%{name} = %{version}-%{release}
+%py_requires -d
 
 %description -n %lib_python
 This package provides shared library for %{name}.
