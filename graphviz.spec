@@ -62,6 +62,7 @@ Patch1:		graphviz-2.20.3-gnomeui.patch
 Patch2:		graphviz-2.20.3-xdg.patch
 # Fix build for Tcl 8.6 (TIP #330, interp->result) - AdamW 2008/12
 Patch3:		graphviz-2.20.3-tcl86.patch
+Patch4:		graphviz-2.20.3-fix-str-fmt.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -230,6 +231,7 @@ Static development package for %{name}
 %patch1 -p1 -b .gnomeui
 %patch2 -p1 -b .xdgopen
 %patch3 -p1 -b .tcl86
+%patch4 -p1 -b .str
 
 %build
 # for patch1
