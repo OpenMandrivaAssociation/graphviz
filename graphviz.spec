@@ -14,11 +14,6 @@
 %define enable_static 1
 %{?_without_static: %{expand: %%global enable_static 0}}
 
-# libgvc_builtins.so doesn't build otherwise
-# https://mailman.research.att.com/pipermail/graphviz-devel/2008/000729.html
-%define _disable_ld_no_undefined 1
-%define _disable_ld_as_needed 1
-
 %define major 4
 %define oldmajor 3
 %define ruby_major 0
@@ -63,6 +58,7 @@ Patch2:		graphviz-2.20.3-xdg.patch
 # Fix build for Tcl 8.6 (TIP #330, interp->result) - AdamW 2008/12
 Patch3:		graphviz-2.20.3-tcl86.patch
 Patch4:		graphviz-2.20.3-fix-str-fmt.patch
+Patch5:		graphviz-2.20.3-linkage.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -232,6 +228,7 @@ Static development package for %{name}
 %patch2 -p1 -b .xdgopen
 %patch3 -p1 -b .tcl86
 %patch4 -p1 -b .str
+%patch5 -p0 -b .linkage
 
 %build
 # for patch1
@@ -256,6 +253,7 @@ autoreconf
 	--enable-python \
 	--disable-python23 \
 	--disable-python24 \
+	--disable-python25 \
 	--disable-guile \
 	--disable-sharp \
 	--enable-ltdl \
