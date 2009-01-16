@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.20.3
-%define release	%mkrel 8
+%define release	%mkrel 9
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -8,7 +8,11 @@
 %define jdk_path %{_prefix}/lib/jvm/java
 %define java_includes %{_includedir}/libgcj
 
-%define build_lua 1
+%if %mdkversion >= 200900
+    %define build_lua 1
+%else
+    %define build_lua 0
+%endif
 %{?_without_lua: %{expand: %%global build_lua 0}}
 
 %define enable_static 1
