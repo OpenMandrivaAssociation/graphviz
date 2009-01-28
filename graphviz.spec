@@ -63,6 +63,8 @@ Patch2:		graphviz-2.20.3-xdg.patch
 Patch3:		graphviz-2.20.3-tcl86.patch
 Patch4:		graphviz-2.20.3-fix-str-fmt.patch
 Patch5:		graphviz-2.20.3-linkage.patch
+Patch6:		graphviz-2.20.3-sys-ltdl.patch
+Patch7:		graphviz-2.20.3-bindings.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -234,6 +236,8 @@ Static development package for %{name}
 %patch3 -p1 -b .tcl86
 %patch4 -p1 -b .str
 %patch5 -p0 -b .linkage
+%patch6 -p0 -b .ltdl
+%patch7 -p0 -b .bindings
 
 %build
 # for patch1
