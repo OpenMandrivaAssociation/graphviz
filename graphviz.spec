@@ -261,7 +261,6 @@ autoreconf
 	--disable-python25 \
 	--disable-guile \
 	--disable-sharp \
-	--enable-ltdl \
 	--with-pangocairo \
 	--with-gtk \
 	--with-libgd \
