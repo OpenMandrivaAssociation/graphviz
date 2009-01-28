@@ -72,6 +72,7 @@ BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
 BuildRequires:	libcurl-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libtool
 BuildRequires:	libltdl-devel
 BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	librsvg-devel
@@ -267,11 +268,11 @@ autoreconf
 	--disable-io \
 	--disable-dependency-tracking
 
-%make
+%make LIBTOOL=%_bindir/libtool
 
 %install
 rm -rf %{buildroot}
-%makeinstall_std
+%makeinstall_std LIBTOOL=%_bindir/libtool
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
