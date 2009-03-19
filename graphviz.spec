@@ -254,11 +254,11 @@ autoreconf -fi
 	--disable-io \
 	--disable-dependency-tracking
 
-%make LIBTOOL=%_bindir/libtool
+%make
 
 %install
 rm -rf %{buildroot}
-%makeinstall_std LIBTOOL=%_bindir/libtool
+%makeinstall_std
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
