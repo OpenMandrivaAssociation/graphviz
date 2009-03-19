@@ -1,6 +1,6 @@
 %define name	graphviz
-%define version	2.20.3
-%define release	%mkrel 10
+%define version	2.22.2
+%define release	%mkrel 1
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -53,18 +53,8 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
-Patch0:		graphviz-2.20.2-fix-build-using-libgvplugin_neato_layout.patch
-# Drops all the gnomeui detection crap, as it's never actually used.
-# Has been submitted upstream - AdamW 2008/11
-Patch1:		graphviz-2.20.3-gnomeui.patch
-# Call xdg-open rather than firefox to open URLs - AdamW 2008/11
-Patch2:		graphviz-2.20.3-xdg.patch
-# Fix build for Tcl 8.6 (TIP #330, interp->result) - AdamW 2008/12
-Patch3:		graphviz-2.20.3-tcl86.patch
-Patch4:		graphviz-2.20.3-fix-str-fmt.patch
-Patch5:		graphviz-2.20.3-linkage.patch
-Patch6:		graphviz-2.20.3-sys-ltdl.patch
-Patch7:		graphviz-2.20.3-bindings.patch
+Patch4:		graphviz-2.22.2-fix-format-errors.patch
+Patch6:		graphviz-2.22.2-use-system-libtool.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -230,18 +220,11 @@ Static development package for %{name}
 
 %prep
 %setup -q
-%patch0 -p1 -b .dot_static
-%patch1 -p1 -b .gnomeui
-%patch2 -p1 -b .xdgopen
-%patch3 -p1 -b .tcl86
-%patch4 -p1 -b .str
-%patch5 -p0 -b .linkage
-%patch6 -p0 -b .ltdl
-%patch7 -p0 -b .bindings
+%patch4 -p1 -b .format
+%patch6 -p1 -b .libtool
 
 %build
-# for patch1
-autoreconf
+autoreconf -fi
 %configure2_5x \
 	--with-x \
 %if ! %build_java
@@ -314,6 +297,7 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %files -n %{libname}
 %defattr(-,root,root)
 %{_libdir}/*.so.%{major}*
+%{_libdir}/*.so.5*
 
 %if %build_lua
 %files -n %lib_lua
