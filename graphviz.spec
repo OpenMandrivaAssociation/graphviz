@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.22.2
-%define release	%mkrel 1
+%define release	%mkrel 2
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -18,7 +18,6 @@
 %define enable_static 1
 %{?_without_static: %{expand: %%global enable_static 0}}
 
-%define major 4
 %define oldmajor 3
 %define ruby_major 0
 %define php_major 0
@@ -30,7 +29,17 @@
 %define r_major 0
 %define ocaml_major 0
 
-%define libname %mklibname graphviz %{major}
+%define cdt_major 4
+%define cgraph_major 4
+%define graph_major 4
+%define gvc_major 5
+%define pathplan_major 4
+
+%define lib_cdt %mklibname cdt %{cdt_major}
+%define lib_cgraph %mklibname cgraph %{cgraph_major}
+%define lib_graph %mklibname graph %{graph_major}
+%define lib_gvc %mklibname gvc %{gvc_major}
+%define lib_pathplan %mklibname pathplan %{pathplan_major}
 %define develname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
@@ -106,12 +115,44 @@ Summary:	%{name} documentation
 %description doc
 %{name} documentation
 
-%package -n %{libname}
+%package -n %{lib_cdt}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+Obsoletes:  %mklibname grapĥviz 4
+
+%description -n %{lib_cdt}
+This package provides cdt shared library for %{name}.
+
+%package -n %{lib_cgraph}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+Obsoletes:  %mklibname grapĥviz 4
+
+%description -n %{lib_cgraph}
+This package provides cgraph shared library for %{name}.
+
+%package -n %{lib_graph}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+Obsoletes:  %mklibname grapĥviz 4
+
+%description -n %{lib_graph}
+This package provides graph shared library for %{name}.
+
+%package -n %{lib_gvc}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
 
-%description -n %{libname}
-This package provides shared library for %{name}.
+%description -n %{lib_gvc}
+This package provides gvc shared library for %{name}.
+
+%package -n %{lib_pathplan}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+Obsoletes:  %mklibname grapĥviz 4
+
+%description -n %{lib_pathplan}
+This package provides pathplan shared library for %{name}.
 
 %if %build_lua
 %package -n %lib_lua
@@ -195,11 +236,13 @@ This package provides shared library for %{name}.
 Group:		Development/Other
 Summary:	Development package for %{name}
 Provides:	%{name}-devel = %{version}-%{release}
-Provides:	lib%{name}-devel = %{version}-%{release}
 Obsoletes:	lib64graphviz7-devel
 Obsoletes:	lib64graphviztcl7-devel
-Requires:	%{libname} = %{version}-%{release}
-Obsoletes:	%{libname}-devel
+Requires:	%{lib_cdt} = %{version}-%{release}
+Requires:	%{lib_cgraph} = %{version}-%{release}
+Requires:	%{lib_graph} = %{version}-%{release}
+Requires:	%{lib_gvc} = %{version}-%{release}
+Requires:	%{lib_pathplan} = %{version}-%{release}
 Obsoletes:	%mklibname -d %name %oldmajor
 
 %description -n %{develname}
@@ -211,7 +254,6 @@ Group:		Development/Other
 Summary:	Static development package for %{name}
 Requires:	%{develname} = %{version}-%{release}
 Provides:	%{name}-static-devel = %{version}-%{release}
-Obsoletes:	%{libname}-static-devel
 Obsoletes:	%mklibname -d -s %name %oldmajor
 
 %description -n %{staticname}
@@ -294,10 +336,25 @@ if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 %defattr(-,root,root)
 %{_datadir}/doc/%{name}
 
-%files -n %{libname}
+%files -n %{lib_cdt}
 %defattr(-,root,root)
-%{_libdir}/*.so.%{major}*
-%{_libdir}/*.so.5*
+%{_libdir}/libcdt.so.%{cdt_major}*
+
+%files -n %{lib_cgraph}
+%defattr(-,root,root)
+%{_libdir}/libcgraph.so.%{cgraph_major}*
+
+%files -n %{lib_graph}
+%defattr(-,root,root)
+%{_libdir}/libgraph.so.%{graph_major}*
+
+%files -n %{lib_pathplan}
+%defattr(-,root,root)
+%{_libdir}/libpathplan.so.%{pathplan_major}*
+
+%files -n %{lib_gvc}
+%defattr(-,root,root)
+%{_libdir}/libgvc.so.%{gvc_major}*
 
 %if %build_lua
 %files -n %lib_lua
