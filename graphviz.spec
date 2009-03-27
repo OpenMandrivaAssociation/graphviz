@@ -1,6 +1,6 @@
 %define name	graphviz
 %define version	2.22.2
-%define release	%mkrel 2
+%define release	%mkrel 3
 
 %define build_java 0
 %{?_with_java: %{expand: %%global build_java 1}}
@@ -118,7 +118,7 @@ Summary:	%{name} documentation
 %package -n %{lib_cdt}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname grapĥviz 4
+Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_cdt}
 This package provides cdt shared library for %{name}.
@@ -126,7 +126,7 @@ This package provides cdt shared library for %{name}.
 %package -n %{lib_cgraph}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname grapĥviz 4
+Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_cgraph}
 This package provides cgraph shared library for %{name}.
@@ -134,7 +134,7 @@ This package provides cgraph shared library for %{name}.
 %package -n %{lib_graph}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname grapĥviz 4
+Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_graph}
 This package provides graph shared library for %{name}.
@@ -149,7 +149,7 @@ This package provides gvc shared library for %{name}.
 %package -n %{lib_pathplan}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname grapĥviz 4
+Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_pathplan}
 This package provides pathplan shared library for %{name}.
