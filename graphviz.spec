@@ -16,8 +16,8 @@
 %define staticname %mklibname graphviz -d -s
 
 Name: graphviz
-Version: 2.22.2 
-Release: %mkrel 5 
+Version: 2.24.0 
+Release: %mkrel 1
 Summary:	Graph visualization tools
 Group:		Graphics
 License:	Common Public License
@@ -351,7 +351,7 @@ Static development package for %{name}
 %prep
 %setup -q
 %patch4 -p1 -b .format
-%patch6 -p1 -b .libtool
+#patch6 -p1 -b .libtool
 
 %build
 autoreconf -fi
