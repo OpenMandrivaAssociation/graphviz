@@ -1,33 +1,5 @@
-%define name	graphviz
-%define version	2.22.2
-%define release	%mkrel 4
-
-%define build_java 0
-%{?_with_java: %{expand: %%global build_java 1}}
-
-%define jdk_path %{_prefix}/lib/jvm/java
-%define java_includes %{_includedir}/libgcj
-
-%if %mdkversion >= 200900
-    %define build_lua 1
-%else
-    %define build_lua 0
-%endif
-%{?_without_lua: %{expand: %%global build_lua 0}}
-
-%define enable_static 1
-%{?_without_static: %{expand: %%global enable_static 0}}
-
-%define oldmajor 3
-%define ruby_major 0
-%define php_major 0
-%define lua_major 0
-%define python_major 0
-%define perl_major 0
-%define java_major 0
-%define tcl_major 0
-%define r_major 0
-%define ocaml_major 0
+%bcond_without static
+%bcond_with libr
 
 %define cdt_major 4
 %define cgraph_major 4
@@ -43,20 +15,9 @@
 %define develname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
-%define lib_ruby %mklibname graphvizruby %{ruby_major}
-%define lib_php %mklibname graphvizphp %{php_major}
-%define lib_lua %mklibname graphvizlua %{lua_major}
-%define lib_python %mklibname graphvizpython %{python_major}
-%define lib_perl %mklibname graphvizperl %{perl_major}
-%define lib_java %mklibname graphvizjava %{java_major}
-%define lib_tcl %mklibname graphviztcl %{tcl_major}
-%define lib_r %mklibname graphvizr %{r_major}
-%define lib_ocaml %mklibname graphvizocaml %{ocaml_major}
-%define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
-
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
+Name: graphviz
+Version: 2.22.2 
+Release: %mkrel 5 
 Summary:	Graph visualization tools
 Group:		Graphics
 License:	Common Public License
@@ -84,29 +45,24 @@ BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	libexpat-devel >= 2.0.0
-BuildRequires:	python-devel
-BuildRequires:	php-devel
-BuildRequires:	php-cli
-BuildRequires:	perl-devel
-BuildRequires:	ruby-devel
-BuildRequires:	libRmath-devel
-BuildRequires:	ocaml
-BuildRequires:	tcl-devel >= 8.3.0
-BuildRequires:	tk-devel >= 8.3.0
-BuildRequires:	tk >= 8.3.0
+
 BuildRequires:	libfontconfig-devel >= 2.3.95
-%if %build_lua
-BuildRequires:	lua-devel
-%endif
-%if %build_java
-BuildRequires:	java-1.4.2-gcj-compat-devel
-%endif
-Conflicts:	%{_lib}graphviz4 < 2.20.3-3
+Conflicts: %{mklibname graphviz 4} < 2.20.3-3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A collection of tools for the manipulation and layout
 of graphs (as in nodes and edges, not as in barcharts).
+
+%files
+%defattr(-,root,root)
+%dir %{_libdir}/%{name}
+%{_bindir}/*
+%_mandir/man?/*
+%{_datadir}/graphviz
+%{_libdir}/graphviz/*.so.*
+
+#-------------------------------------------------------------------------
 
 %package doc
 Group:		Books/Computer books
@@ -114,6 +70,12 @@ Summary:	%{name} documentation
 
 %description doc
 %{name} documentation
+
+%files doc
+%defattr(-,root,root)
+%{_datadir}/doc/%{name}
+
+#-------------------------------------------------------------------------
 
 %package -n %{lib_cdt}
 Group:		System/Libraries
@@ -123,6 +85,12 @@ Obsoletes:  %mklibname graphviz 4
 %description -n %{lib_cdt}
 This package provides cdt shared library for %{name}.
 
+%files -n %{lib_cdt}
+%defattr(-,root,root)
+%{_libdir}/libcdt.so.%{cdt_major}*
+
+#-------------------------------------------------------------------------
+
 %package -n %{lib_cgraph}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
@@ -130,6 +98,12 @@ Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_cgraph}
 This package provides cgraph shared library for %{name}.
+
+%files -n %{lib_cgraph}
+%defattr(-,root,root)
+%{_libdir}/libcgraph.so.%{cgraph_major}*
+
+#-------------------------------------------------------------------------
 
 %package -n %{lib_graph}
 Group:		System/Libraries
@@ -139,12 +113,24 @@ Obsoletes:  %mklibname graphviz 4
 %description -n %{lib_graph}
 This package provides graph shared library for %{name}.
 
+%files -n %{lib_graph}
+%defattr(-,root,root)
+%{_libdir}/libgraph.so.%{graph_major}*
+
+#-------------------------------------------------------------------------
+
 %package -n %{lib_gvc}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
 
 %description -n %{lib_gvc}
 This package provides gvc shared library for %{name}.
+
+%files -n %{lib_gvc}
+%defattr(-,root,root)
+%{_libdir}/libgvc.so.%{gvc_major}*
+
+#-------------------------------------------------------------------------
 
 %package -n %{lib_pathplan}
 Group:		System/Libraries
@@ -154,101 +140,194 @@ Obsoletes:  %mklibname graphviz 4
 %description -n %{lib_pathplan}
 This package provides pathplan shared library for %{name}.
 
-%if %build_lua
-%package -n %lib_lua
+%files -n %{lib_pathplan}
+%defattr(-,root,root)
+%{_libdir}/libpathplan.so.%{pathplan_major}*
+
+#-------------------------------------------------------------------------
+
+%define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
+
+%package -n lua-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for lua
-Provides:	lua-%{name} = %{version}-%{release}
+BuildRequires: lua-devel
+Obsoletes: %{mklibname graphvizlua 0}
 
-%description -n %lib_lua
+%description -n lua-graphviz
 This package provides shared library for %{name}.
-%endif
 
-%package -n %lib_php
+%files -n lua-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/lua
+%{_libdir}/lua/%{lua_version}/gv.so
+
+#-------------------------------------------------------------------------
+
+%package  -n php-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for php
-Provides:	php-%{name} = %{version}-%{release}
+BuildRequires: php-devel
+BuildRequires: php-cli
+Obsoletes: %{mklibname graphvizphp 0}
 
-%description -n %lib_php
+%description -n php-graphviz
 This package provides shared library for %{name}.
 
-%package -n %lib_python
-Group:		System/Libraries
-Summary:	Graphviz bindings for python
-Provides:	python-%{name} = %{version}-%{release}
-%py_requires -d
+%files -n php-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/php
+%{_libdir}/php/modules/gv.so
+%{_datadir}/php/gv.php
 
-%description -n %lib_python
+#-------------------------------------------------------------------------
+
+%package -n python-graphviz
+Group: System/Libraries
+Summary: Graphviz bindings for python
+Obsoletes: %{mklibname graphvizpython 0}
+
+%description -n python-graphviz
 This package provides shared library for %{name}.
 
-%package -n %lib_ruby
-Group:		System/Libraries
-Summary:	Graphviz bindings for ruby
-Provides:	ruby-%{name} = %{version}-%{release}
+%files -n python-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/python
+%py_platsitedir/*
 
-%description -n %lib_ruby
+#-------------------------------------------------------------------------
+
+%package -n ruby-graphviz
+Group: System/Libraries
+Summary: Graphviz bindings for ruby
+BuildRequires: ruby-devel
+Obsoletes: %{mklibname graphvizruby 0}
+
+%description -n ruby-graphviz
 This package provides shared library for %{name}.
 
-%package -n %lib_perl
+%files -n ruby-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/ruby
+%{_prefix}/lib/ruby
+
+#-------------------------------------------------------------------------
+
+%package -n perl-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for perl
-Provides:	perl-%{name} = %{version}-%{release}
+BuildRequires:	perl-devel
+Obsoletes: %{mklibname graphvizperl 0}
 
-%description -n %lib_perl
+%description -n perl-graphviz
 This package provides shared library for %{name}.
 
-%package -n %lib_tcl
+%files -n perl-graphviz
+%defattr(-,root,root)
+%{_prefix}/lib/perl*
+%{_libdir}/graphviz/perl
+
+#-------------------------------------------------------------------------
+
+%package -n tcl-graphviz
 Group: System/Libraries
-Summary:	Graphviz bindings for tcl
-Obsoletes:	lib64graphviztcl7-devel
-Provides:	tcl-%{name} = %{version}-%{release}
+Summary: Graphviz bindings for tcl
+BuildRequires:	tcl-devel >= 8.3.0
+BuildRequires:	tk-devel >= 8.3.0
+BuildRequires:	tk >= 8.3.0
+Obsoletes: %{mklibname graphviztcl 7 -d}
+Obsoletes: %{mklibname graphviztcl 0}
 
-%description -n %lib_tcl
+%description -n tcl-graphviz
 This package provides shared library for %{name}.
 
-%if %build_java
-%package -n %lib_java
+%files -n tcl-graphviz
+%defattr(-,root,root)
+%{_libdir}/tcl*
+%{_libdir}/graphviz/tcl
+
+#-------------------------------------------------------------------------
+
+%define jdk_path %{_prefix}/lib/jvm/java
+%define java_includes %{_includedir}/libgcj
+
+%package -n java-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for java
-Provides:	java-%{name} = %{version}-%{release}
+BuildRequires:	java-devel
+Obsoletes: %{mklibname graphvizjava 0}
 
-%description -n %lib_java
+%description -n java-graphviz
 This package provides shared library for %{name}.
-%endif
 
-%package -n %lib_r
+%files -n java-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/java
+
+#-------------------------------------------------------------------------
+%if %with libr
+
+%package -n r-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for R
-Provides:	r-%{name} = %{version}-%{release}
+BuildRequires:	libRmath-devel
+Obsoletes: %{mklibname graphvizr 0}
 
-%description -n %lib_r
+%description -n r-graphviz
 This package provides shared library for %{name}.
 
-%package -n %lib_ocaml
+%files -n r-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/R
+
+%endif
+#-------------------------------------------------------------------------
+
+%package -n ocaml-graphviz
 Group:		System/Libraries
 Summary:	Graphviz bindings for OCaml
-Provides:	ocaml-%{name} = %{version}-%{release}
+BuildRequires:	ocaml
+Obsoletes: %{mklibname graphvizocaml 0}
 
-%description -n %lib_ocaml
+%description -n ocaml-graphviz
 This package provides shared library for %{name}.
+
+%files -n ocaml-graphviz
+%defattr(-,root,root)
+%{_libdir}/graphviz/ocaml
+
+#-------------------------------------------------------------------------
+
+%define oldmajor 3
 
 %package -n %{develname}
 Group:		Development/Other
 Summary:	Development package for %{name}
 Provides:	%{name}-devel = %{version}-%{release}
-Obsoletes:	lib64graphviz7-devel
-Obsoletes:	lib64graphviztcl7-devel
+Obsoletes:	%{mklibname graphviz -d 7}
+Obsoletes:	%{mklibname graphviztcl -d 7}
+Obsoletes:	%{mklibname -d %name %oldmajor}
 Requires:	%{lib_cdt} = %{version}-%{release}
 Requires:	%{lib_cgraph} = %{version}-%{release}
 Requires:	%{lib_graph} = %{version}-%{release}
 Requires:	%{lib_gvc} = %{version}-%{release}
 Requires:	%{lib_pathplan} = %{version}-%{release}
-Obsoletes:	%mklibname -d %name %oldmajor
 
 %description -n %{develname}
 Development package for %{name}
 
-%if %enable_static
+%files -n %{develname}
+%defattr(-,root,root)
+%{_libdir}/pkgconfig/*
+%{_libdir}/graphviz/*.so
+%{_libdir}/graphviz/*.la
+%{_libdir}/*.so
+%{_libdir}/*.la
+%{_includedir}/graphviz
+
+#-------------------------------------------------------------------------
+
+%if ! %without static
 %package -n %{staticname}
 Group:		Development/Other
 Summary:	Static development package for %{name}
@@ -258,7 +337,15 @@ Obsoletes:	%mklibname -d -s %name %oldmajor
 
 %description -n %{staticname}
 Static development package for %{name}
+
+%files -n %{staticname}
+%defattr(-,root,root)
+%{_libdir}/graphviz/*.a
+%{_libdir}/*.a
+
 %endif
+
+#-------------------------------------------------------------------------
 
 %prep
 %setup -q
@@ -269,25 +356,20 @@ Static development package for %{name}
 autoreconf -fi
 %configure2_5x \
 	--with-x \
-%if ! %build_java
-	--disable-java \
-%endif
-%if ! %build_lua
-	--disable-lua \
-%endif
-%if ! %enable_static
+%if %without static
 	 --disable-static \
 %else
 	--enable-static \
 %endif
+%if %with libr
 	--enable-r \
+%else
+	--disable-r \
+%endif
 	--enable-ocaml \
 	--enable-perl \
 	--enable-php \
 	--enable-python \
-	--disable-python23 \
-	--disable-python24 \
-	--disable-python25 \
 	--disable-guile \
 	--disable-sharp \
 	--with-pangocairo \
@@ -316,108 +398,3 @@ rm -rf %{buildroot}
 %postun
 if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
 
-%if %mdkversion < 200900
-%post -n %{libname} -p /sbin/ldconfig
-%endif
-
-%if %mdkversion < 200900
-%postun -n %{libname} -p /sbin/ldconfig
-%endif
-
-%files
-%defattr(-,root,root)
-%dir %{_libdir}/%{name}
-%{_bindir}/*
-%_mandir/man?/*
-%{_datadir}/graphviz
-%{_libdir}/graphviz/*.so.*
-
-%files doc
-%defattr(-,root,root)
-%{_datadir}/doc/%{name}
-
-%files -n %{lib_cdt}
-%defattr(-,root,root)
-%{_libdir}/libcdt.so.%{cdt_major}*
-
-%files -n %{lib_cgraph}
-%defattr(-,root,root)
-%{_libdir}/libcgraph.so.%{cgraph_major}*
-
-%files -n %{lib_graph}
-%defattr(-,root,root)
-%{_libdir}/libgraph.so.%{graph_major}*
-
-%files -n %{lib_pathplan}
-%defattr(-,root,root)
-%{_libdir}/libpathplan.so.%{pathplan_major}*
-
-%files -n %{lib_gvc}
-%defattr(-,root,root)
-%{_libdir}/libgvc.so.%{gvc_major}*
-
-%if %build_lua
-%files -n %lib_lua
-%defattr(-,root,root)
-%{_libdir}/graphviz/lua
-%{_libdir}/lua/%{lua_version}/gv.so
-%endif
-
-%files -n %lib_php
-%defattr(-,root,root)
-%{_libdir}/graphviz/php
-%{_libdir}/php/modules/gv.so
-%{_datadir}/php/gv.php
-
-%files -n %lib_python
-%defattr(-,root,root)
-%{_libdir}/python*
-%{_libdir}/graphviz/python
-%{_libdir}/graphviz/python23
-%{_libdir}/graphviz/python24
-%{_libdir}/graphviz/python25
-
-%files -n %lib_ruby
-%defattr(-,root,root)
-%{_usr}/lib/ruby
-%{_libdir}/graphviz/ruby
-
-%files -n %lib_perl
-%defattr(-,root,root)
-%{_usr}/lib/perl*
-%{_libdir}/graphviz/perl
-
-%files -n %lib_tcl
-%defattr(-,root,root)
-%{_libdir}/tcl*
-%{_libdir}/graphviz/tcl
-
-%if %build_java
-%files -n %lib_java
-%defattr(-,root,root)
-%{_libdir}/graphviz/java
-%endif
-
-%files -n %lib_r
-%defattr(-,root,root)
-%{_libdir}/graphviz/R
-
-%files -n %lib_ocaml
-%defattr(-,root,root)
-%{_libdir}/graphviz/ocaml
-
-%files -n %{develname}
-%defattr(-,root,root)
-%{_libdir}/pkgconfig/*
-%{_libdir}/graphviz/*.so
-%{_libdir}/graphviz/*.la
-%{_libdir}/*.so
-%{_libdir}/*.la
-%{_includedir}/graphviz
-
-%if %enable_static
-%files -n %{staticname}
-%defattr(-,root,root)
-%{_libdir}/graphviz/*.a
-%{_libdir}/*.a
-%endif
