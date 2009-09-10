@@ -186,6 +186,7 @@ This package provides shared library for %{name}.
 Group: System/Libraries
 Summary: Graphviz bindings for python
 Obsoletes: %{mklibname graphvizpython 0}
+%py_requires -d
 
 %description -n python-graphviz
 This package provides shared library for %{name}.
