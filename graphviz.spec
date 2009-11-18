@@ -15,10 +15,10 @@
 %define develname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
-Name: graphviz
-Version: 2.24.0 
-Release: %mkrel 1
 Summary:	Graph visualization tools
+Name:		graphviz
+Version:	2.24.0
+Release:	%mkrel 2
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
@@ -45,7 +45,6 @@ BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	libexpat-devel >= 2.0.0
-
 BuildRequires:	libfontconfig-devel >= 2.3.95
 Conflicts: %{mklibname graphviz 4} < 2.20.3-3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
@@ -351,10 +350,11 @@ Static development package for %{name}
 %prep
 %setup -q
 %patch4 -p1 -b .format
-#patch6 -p1 -b .libtool
+%patch6 -p0 -b .libtool
 
 %build
 autoreconf -fi
+
 %configure2_5x \
 	--with-x \
 %if %without static
