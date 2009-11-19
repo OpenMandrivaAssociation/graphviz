@@ -48,6 +48,7 @@ BuildRequires:	libexpat-devel >= 2.0.0
 BuildRequires:	libfontconfig-devel >= 2.3.95
 Conflicts: %{mklibname graphviz 4} < 2.20.3-3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
+Obsoletes:  %mklibname graphviz 4
 
 %description
 A collection of tools for the manipulation and layout
@@ -79,7 +80,6 @@ Summary:	%{name} documentation
 %package -n %{lib_cdt}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_cdt}
 This package provides cdt shared library for %{name}.
@@ -93,7 +93,6 @@ This package provides cdt shared library for %{name}.
 %package -n %{lib_cgraph}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_cgraph}
 This package provides cgraph shared library for %{name}.
@@ -107,7 +106,6 @@ This package provides cgraph shared library for %{name}.
 %package -n %{lib_graph}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_graph}
 This package provides graph shared library for %{name}.
@@ -134,7 +132,6 @@ This package provides gvc shared library for %{name}.
 %package -n %{lib_pathplan}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
-Obsoletes:  %mklibname graphviz 4
 
 %description -n %{lib_pathplan}
 This package provides pathplan shared library for %{name}.
