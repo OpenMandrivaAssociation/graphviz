@@ -5,20 +5,24 @@
 %define cgraph_major 4
 %define graph_major 4
 %define gvc_major 5
+%define gvpr_major 1
 %define pathplan_major 4
+%define xdot_major 4
 
 %define lib_cdt %mklibname cdt %{cdt_major}
 %define lib_cgraph %mklibname cgraph %{cgraph_major}
 %define lib_graph %mklibname graph %{graph_major}
 %define lib_gvc %mklibname gvc %{gvc_major}
+%define lib_gvpr %mklibname gvpr %{gvpr_major}
 %define lib_pathplan %mklibname pathplan %{pathplan_major}
+%define lib_xdot %mklibname xdot %{xdot_major}
 %define develname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.24.0
-Release:	%mkrel 3
+Version:	2.26.0
+Release:	%mkrel 1
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
@@ -129,6 +133,19 @@ This package provides gvc shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
+%package -n %{lib_gvpr}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+
+%description -n %{lib_gvpr}
+This package provides gvpr shared library for %{name}.
+
+%files -n %{lib_gvpr}
+%defattr(-,root,root)
+%{_libdir}/libgvpr.so.%{gvpr_major}*
+
+#-------------------------------------------------------------------------
+
 %package -n %{lib_pathplan}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
@@ -139,6 +156,19 @@ This package provides pathplan shared library for %{name}.
 %files -n %{lib_pathplan}
 %defattr(-,root,root)
 %{_libdir}/libpathplan.so.%{pathplan_major}*
+
+#-------------------------------------------------------------------------
+
+%package -n %{lib_xdot}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
+
+%description -n %{lib_xdot}
+This package provides xdot shared library for %{name}.
+
+%files -n %{lib_xdot}
+%defattr(-,root,root)
+%{_libdir}/libxdot.so.%{xdot_major}*
 
 #-------------------------------------------------------------------------
 
