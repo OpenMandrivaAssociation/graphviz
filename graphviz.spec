@@ -72,7 +72,7 @@ Group:		Books/Computer books
 Summary:	%{name} documentation
 
 %description doc
-%{name} documentation
+The %{name} documentation.
 
 %files doc
 %defattr(-,root,root)
@@ -86,7 +86,7 @@ Summary:	Shared library for %{name}
 Conflicts:	%{_lib}graphviz4 < 2.26
 
 %description -n %{lib_cdt}
-This package provides cdt shared library for %{name}.
+This package provides the cdt shared library for %{name}.
 
 %files -n %{lib_cdt}
 %defattr(-,root,root)
@@ -100,7 +100,7 @@ Summary:	Shared library for %{name}
 Conflicts:	%{_lib}graphviz4 < 2.26
 
 %description -n %{lib_cgraph}
-This package provides cgraph shared library for %{name}.
+This package provides the cgraph shared library for %{name}.
 
 %files -n %{lib_cgraph}
 %defattr(-,root,root)
@@ -115,7 +115,7 @@ Conflicts:	%{_lib}graphviz4 < 2.26
 Obsoletes:	%{_lib}graphviz4 < 2.26
 
 %description -n %{lib_graph}
-This package provides graph shared library for %{name}.
+This package provides the graph shared library for %{name}.
 
 %files -n %{lib_graph}
 %defattr(-,root,root)
@@ -129,7 +129,7 @@ Summary:	Shared library for %{name}
 Conflicts:	%{_lib}graphviz4 < 2.26
 
 %description -n %{lib_gvc}
-This package provides gvc shared library for %{name}.
+This package provides the gvc shared library for %{name}.
 
 %files -n %{lib_gvc}
 %defattr(-,root,root)
@@ -142,7 +142,7 @@ Group:		System/Libraries
 Summary:	Shared library for %{name}
 
 %description -n %{lib_gvpr}
-This package provides gvpr shared library for %{name}.
+This package provides the gvpr shared library for %{name}.
 
 %files -n %{lib_gvpr}
 %defattr(-,root,root)
@@ -156,7 +156,7 @@ Summary:	Shared library for %{name}
 Conflicts:	%{_lib}graphviz4 < 2.26
 
 %description -n %{lib_pathplan}
-This package provides pathplan shared library for %{name}.
+This package provides the pathplan shared library for %{name}.
 
 %files -n %{lib_pathplan}
 %defattr(-,root,root)
@@ -169,7 +169,7 @@ Group:		System/Libraries
 Summary:	Shared library for %{name}
 
 %description -n %{lib_xdot}
-This package provides xdot shared library for %{name}.
+This package provides the xdot shared library for %{name}.
 
 %files -n %{lib_xdot}
 %defattr(-,root,root)
@@ -186,7 +186,7 @@ BuildRequires: lua-devel
 Obsoletes: %{mklibname graphvizlua 0}
 
 %description -n lua-graphviz
-This package provides shared library for %{name}.
+This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
 %defattr(-,root,root)
@@ -203,7 +203,7 @@ BuildRequires: php-cli
 Obsoletes: %{mklibname graphvizphp 0}
 
 %description -n php-graphviz
-This package provides shared library for %{name}.
+This package provides the PHP extension for %{name}.
 
 %files -n php-graphviz
 %defattr(-,root,root)
@@ -220,7 +220,7 @@ Obsoletes: %{mklibname graphvizpython 0}
 %py_requires -d
 
 %description -n python-graphviz
-This package provides shared library for %{name}.
+This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
 %defattr(-,root,root)
@@ -236,7 +236,7 @@ BuildRequires: ruby-devel
 Obsoletes: %{mklibname graphvizruby 0}
 
 %description -n ruby-graphviz
-This package provides shared library for %{name}.
+This package provides the Ruby extension for %{name}.
 
 %files -n ruby-graphviz
 %defattr(-,root,root)
@@ -252,7 +252,7 @@ BuildRequires:	perl-devel
 Obsoletes: %{mklibname graphvizperl 0}
 
 %description -n perl-graphviz
-This package provides shared library for %{name}.
+This package provides the Perl extension for %{name}.
 
 %files -n perl-graphviz
 %defattr(-,root,root)
@@ -271,7 +271,7 @@ Obsoletes: %{mklibname graphviztcl 7 -d}
 Obsoletes: %{mklibname graphviztcl 0}
 
 %description -n tcl-graphviz
-This package provides shared library for %{name}.
+This package provides the Tcl extension for %{name}.
 
 %files -n tcl-graphviz
 %defattr(-,root,root)
@@ -290,7 +290,7 @@ BuildRequires:	java-devel
 Obsoletes: %{mklibname graphvizjava 0}
 
 %description -n java-graphviz
-This package provides shared library for %{name}.
+This package provides the Java extension for %{name}.
 
 %files -n java-graphviz
 %defattr(-,root,root)
@@ -306,7 +306,7 @@ BuildRequires:	libRmath-devel
 Obsoletes: %{mklibname graphvizr 0}
 
 %description -n r-graphviz
-This package provides shared library for %{name}.
+This package provides the R extension for %{name}.
 
 %files -n r-graphviz
 %defattr(-,root,root)
@@ -322,7 +322,7 @@ BuildRequires:	ocaml
 Obsoletes: %{mklibname graphvizocaml 0}
 
 %description -n ocaml-graphviz
-This package provides shared library for %{name}.
+This package provides the OCaml extension for %{name}.
 
 %files -n ocaml-graphviz
 %defattr(-,root,root)
@@ -348,7 +348,7 @@ Requires:	%{lib_pathplan} = %{version}
 Requires:	%{lib_xdot} = %{version}
 
 %description -n %{develname}
-Development package for %{name}
+Development package for %{name}.
 
 %files -n %{develname}
 %defattr(-,root,root)
@@ -370,7 +370,7 @@ Provides:	%{name}-static-devel = %{version}-%{release}
 Obsoletes:	%mklibname -d -s %name %oldmajor
 
 %description -n %{staticname}
-Static development package for %{name}
+Static development package for %{name}.
 
 %files -n %{staticname}
 %defattr(-,root,root)
