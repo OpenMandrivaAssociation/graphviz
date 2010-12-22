@@ -42,8 +42,10 @@ BuildRequires:	libtool
 BuildRequires:	libltdl-devel
 BuildRequires:	libpng-devel >= 1.2.10
 BuildRequires:	librsvg-devel
-BuildRequires:	libstdc++-devel
-BuildRequires:	X11-devel
+BuildRequires:	libx11-devel
+BuildRequires:	libxaw-devel
+BuildRequires:	libxmu-devel
+BuildRequires:	libxt-devel
 BuildRequires:	gtk+2-devel
 BuildRequires:	gtkglarea2-devel
 BuildRequires:	gtkglext-devel
