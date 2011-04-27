@@ -22,7 +22,7 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.26.3
-Release:	%mkrel 6
+Release:	%mkrel 7
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
@@ -348,6 +348,7 @@ Requires:	%{lib_gvc} = %{version}
 Requires:	%{lib_gvpr} = %{version}
 Requires:	%{lib_pathplan} = %{version}
 Requires:	%{lib_xdot} = %{version}
+Requires:	%{name} = %{version}
 
 %description -n %{develname}
 Development package for %{name}.
