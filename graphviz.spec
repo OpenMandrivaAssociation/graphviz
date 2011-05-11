@@ -1,11 +1,11 @@
 %bcond_without static
 %bcond_with libr
 
-%define cdt_major 4
-%define cgraph_major 5
-%define graph_major 4
-%define gvc_major 5
-%define gvpr_major 1
+%define cdt_major 5
+%define cgraph_major 6
+%define graph_major 5
+%define gvc_major 6
+%define gvpr_major 2
 %define pathplan_major 4
 %define xdot_major 4
 
@@ -21,14 +21,13 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.26.3
-Release:	%mkrel 7
+Version:	2.28.0
+Release:	%mkrel 1
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
-Patch4:		graphviz-2.26.3-fix-format-errors.patch
-Patch6:		graphviz-2.22.2-use-system-libtool.patch
+Patch4:		graphviz-2.28.0-fix-format-errors.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -258,7 +257,7 @@ This package provides the Perl extension for %{name}.
 
 %files -n perl-graphviz
 %defattr(-,root,root)
-%{_prefix}/lib/perl*
+%{perl_vendorarch}/*
 %{_libdir}/graphviz/perl
 
 #-------------------------------------------------------------------------
@@ -387,11 +386,8 @@ Static development package for %{name}.
 %prep
 %setup -q
 %patch4 -p1 -b .format
-%patch6 -p0 -b .libtool
 
 %build
-autoreconf -fi
-
 %configure2_5x \
 	--with-x \
 %if %without static
@@ -416,7 +412,7 @@ autoreconf -fi
 	--disable-io \
 	--disable-dependency-tracking
 
-%make
+%make TK_LIB_SPEC="-ltcl -ltk"
 
 %install
 rm -rf %{buildroot}
