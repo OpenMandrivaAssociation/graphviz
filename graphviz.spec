@@ -22,44 +22,45 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.28.0
-Release:	%mkrel 1
+Release:	2
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
-Source:		http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Patch4:		graphviz-2.28.0-fix-format-errors.patch
+
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
+BuildRequires:	libtool
 BuildRequires:	swig >= 1.3.29
-BuildRequires:	freetype2-devel >= 2.1.10
-BuildRequires:	pango-devel >= 1.12.4
+BuildRequires:	expat-devel >= 2.0.0
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
-BuildRequires:	libcurl-devel
-BuildRequires:	libjpeg-devel
-BuildRequires:	libtool
+BuildRequires:	jpeg-devel
 BuildRequires:	libltdl-devel
-BuildRequires:	libpng-devel >= 1.2.10
-BuildRequires:	librsvg-devel
-BuildRequires:	libx11-devel
-BuildRequires:	libxaw-devel
-BuildRequires:	libxmu-devel
-BuildRequires:	libxt-devel
-BuildRequires:	gtk+2-devel
-BuildRequires:	gtkglarea2-devel
-BuildRequires:	gtkglext-devel
-BuildRequires:	zlib-devel >= 1.2.3
-BuildRequires:	libexpat-devel >= 2.0.0
-BuildRequires:	libfontconfig-devel >= 2.3.95
+BuildRequires:	pkgconfig(fontconfig)
+BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gtkglext-1.0)
+BuildRequires:	pkgconfig(gtkgl-2.0)
+BuildRequires:	pkgconfig(libcurl)
+BuildRequires:	pkgconfig(libpng)
+BuildRequires:	pkgconfig(librsvg-2.0)
+BuildRequires:	pkgconfig(pango)
+BuildRequires:	pkgconfig(pangocairo)
+BuildRequires:	pkgconfig(x11)
+BuildRequires:	pkgconfig(xaw)
+BuildRequires:	pkgconfig(xmu)
+BuildRequires:	pkgconfig(xt)
+BuildRequires:	pkgconfig(zlib)
+
 Conflicts: %{mklibname graphviz 4} < 2.20.3-3
-BuildRoot:	%{_tmppath}/%{name}-%{version}-buildroot
 
 %description
 A collection of tools for the manipulation and layout
 of graphs (as in nodes and edges, not as in barcharts).
 
 %files
-%defattr(-,root,root)
 %dir %{_libdir}/%{name}
 %{_bindir}/*
 %_mandir/man?/*
@@ -76,7 +77,6 @@ Summary:	%{name} documentation
 The %{name} documentation.
 
 %files doc
-%defattr(-,root,root)
 %{_datadir}/doc/%{name}
 
 #-------------------------------------------------------------------------
@@ -90,7 +90,6 @@ Conflicts:	%{_lib}graphviz4 < 2.26
 This package provides the cdt shared library for %{name}.
 
 %files -n %{lib_cdt}
-%defattr(-,root,root)
 %{_libdir}/libcdt.so.%{cdt_major}*
 
 #-------------------------------------------------------------------------
@@ -104,7 +103,6 @@ Conflicts:	%{_lib}graphviz4 < 2.26
 This package provides the cgraph shared library for %{name}.
 
 %files -n %{lib_cgraph}
-%defattr(-,root,root)
 %{_libdir}/libcgraph.so.%{cgraph_major}*
 
 #-------------------------------------------------------------------------
@@ -133,7 +131,6 @@ Conflicts:	%{_lib}graphviz4 < 2.26
 This package provides the gvc shared library for %{name}.
 
 %files -n %{lib_gvc}
-%defattr(-,root,root)
 %{_libdir}/libgvc.so.%{gvc_major}*
 
 #-------------------------------------------------------------------------
@@ -146,7 +143,6 @@ Summary:	Shared library for %{name}
 This package provides the gvpr shared library for %{name}.
 
 %files -n %{lib_gvpr}
-%defattr(-,root,root)
 %{_libdir}/libgvpr.so.%{gvpr_major}*
 
 #-------------------------------------------------------------------------
@@ -160,7 +156,6 @@ Conflicts:	%{_lib}graphviz4 < 2.26
 This package provides the pathplan shared library for %{name}.
 
 %files -n %{lib_pathplan}
-%defattr(-,root,root)
 %{_libdir}/libpathplan.so.%{pathplan_major}*
 
 #-------------------------------------------------------------------------
@@ -173,7 +168,6 @@ Summary:	Shared library for %{name}
 This package provides the xdot shared library for %{name}.
 
 %files -n %{lib_xdot}
-%defattr(-,root,root)
 %{_libdir}/libxdot.so.%{xdot_major}*
 
 #-------------------------------------------------------------------------
@@ -190,7 +184,6 @@ Obsoletes: %{mklibname graphvizlua 0}
 This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/lua
 %{_libdir}/lua/%{lua_version}/gv.so
 
@@ -207,7 +200,6 @@ Obsoletes: %{mklibname graphvizphp 0}
 This package provides the PHP extension for %{name}.
 
 %files -n php-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/php
 %{_libdir}/php/modules/gv.so
 %{_datadir}/php/gv.php
@@ -224,7 +216,6 @@ Obsoletes: %{mklibname graphvizpython 0}
 This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/python
 %py_platsitedir/*
 
@@ -240,7 +231,6 @@ Obsoletes: %{mklibname graphvizruby 0}
 This package provides the Ruby extension for %{name}.
 
 %files -n ruby-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/ruby
 %{_prefix}/lib/ruby
 
@@ -256,7 +246,6 @@ Obsoletes: %{mklibname graphvizperl 0}
 This package provides the Perl extension for %{name}.
 
 %files -n perl-graphviz
-%defattr(-,root,root)
 %{perl_vendorarch}/*
 %{_libdir}/graphviz/perl
 
@@ -275,7 +264,6 @@ Obsoletes: %{mklibname graphviztcl 0}
 This package provides the Tcl extension for %{name}.
 
 %files -n tcl-graphviz
-%defattr(-,root,root)
 %{_libdir}/tcl*
 %{_libdir}/graphviz/tcl
 
@@ -294,7 +282,6 @@ Obsoletes: %{mklibname graphvizjava 0}
 This package provides the Java extension for %{name}.
 
 %files -n java-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/java
 
 #-------------------------------------------------------------------------
@@ -310,7 +297,6 @@ Obsoletes: %{mklibname graphvizr 0}
 This package provides the R extension for %{name}.
 
 %files -n r-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/R
 
 %endif
@@ -326,7 +312,6 @@ Obsoletes: %{mklibname graphvizocaml 0}
 This package provides the OCaml extension for %{name}.
 
 %files -n ocaml-graphviz
-%defattr(-,root,root)
 %{_libdir}/graphviz/ocaml
 
 #-------------------------------------------------------------------------
@@ -347,7 +332,6 @@ Requires:	%{lib_gvc} = %{version}
 Requires:	%{lib_gvpr} = %{version}
 Requires:	%{lib_pathplan} = %{version}
 Requires:	%{lib_xdot} = %{version}
-Requires:	%{name} = %{version}
 
 %description -n %{develname}
 Development package for %{name}.
@@ -356,9 +340,7 @@ Development package for %{name}.
 %defattr(-,root,root)
 %{_libdir}/pkgconfig/*
 %{_libdir}/graphviz/*.so
-%{_libdir}/graphviz/*.la
 %{_libdir}/*.so
-%{_libdir}/*.la
 %{_includedir}/graphviz
 
 #-------------------------------------------------------------------------
@@ -417,14 +399,12 @@ Static development package for %{name}.
 %install
 rm -rf %{buildroot}
 %makeinstall_std
+find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
 mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_docdir}/%{name}
 mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_docdir}/%{name}
-
-%clean
-rm -rf %{buildroot}
 
 %post
 %{_bindir}/dot -c
