@@ -1,3 +1,4 @@
+%define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
 
@@ -396,7 +397,7 @@ Static development package for %{name}.
 	--disable-io \
 	--disable-dependency-tracking
 
-%make TK_LIB_SPEC="-ltcl -ltk"
+%make TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11"
 
 %install
 rm -rf %{buildroot}
