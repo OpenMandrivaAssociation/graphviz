@@ -33,13 +33,15 @@ BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	libtool
 BuildRequires:	swig >= 1.3.29
-BuildRequires:	expat-devel >= 2.0.0
+BuildRequires:	expat-devel
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
-BuildRequires:	jpeg-devel
+# jpeg:          No (only required by internal libgd)
+#BuildRequires:	jpeg-devel
 BuildRequires:	libltdl-devel
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(freetype2)
+BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gtkglext-1.0)
 BuildRequires:	pkgconfig(gtkgl-2.0)
@@ -49,7 +51,7 @@ BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(pango)
 BuildRequires:	pkgconfig(pangocairo)
 BuildRequires:	pkgconfig(x11)
-BuildRequires:	pkgconfig(xaw)
+BuildRequires:	pkgconfig(xaw7)
 BuildRequires:	pkgconfig(xmu)
 BuildRequires:	pkgconfig(xt)
 BuildRequires:	pkgconfig(zlib)
