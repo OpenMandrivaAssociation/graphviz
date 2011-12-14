@@ -404,9 +404,7 @@ Static development package for %{name}.
 %make TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11"
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std
-find %{buildroot} -type f -name "*.la" -exec rm -f {} ';'
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
