@@ -1,3 +1,6 @@
+# disable anal madness
+%define _unpackaged_subdirs_terminate_build 0
+
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
@@ -28,8 +31,8 @@ Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+Patch0:		graphviz-2.28.0-linkage.patch
 Patch4:		graphviz-2.28.0-fix-format-errors.patch
-
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	libtool
@@ -370,6 +373,7 @@ Static development package for %{name}.
 
 %prep
 %setup -q
+%patch0 -p0 -b .link
 %patch4 -p1 -b .format
 
 %build
