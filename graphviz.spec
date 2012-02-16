@@ -33,6 +33,7 @@ URL:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Patch0:		graphviz-2.28.0-linkage.patch
 Patch4:		graphviz-2.28.0-fix-format-errors.patch
+Patch5:		graphviz-2.28.0-ruby1.9.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	libtool
@@ -375,6 +376,8 @@ Static development package for %{name}.
 %setup -q
 %patch0 -p0 -b .link
 %patch4 -p1 -b .format
+%patch5 -p1 -b .ruby19~
+autoconf
 
 %build
 %configure2_5x \
