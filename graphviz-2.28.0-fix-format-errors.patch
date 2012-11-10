@@ -1,0 +1,109 @@
+diff -ur graphviz-2.26.3.orig/cmd/tools/bcomps.c graphviz-2.26.3/cmd/tools/bcomps.c
+--- graphviz-2.26.3.orig/cmd/tools/bcomps.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/bcomps.c	2010-02-01 22:03:42.000000000 +0100
+@@ -315,7 +315,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+diff -ur graphviz-2.26.3.orig/cmd/tools/ccomps.c graphviz-2.26.3/cmd/tools/ccomps.c
+--- graphviz-2.26.3.orig/cmd/tools/ccomps.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/ccomps.c	2010-02-01 22:03:42.000000000 +0100
+@@ -99,7 +99,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+diff -ur graphviz-2.26.3.orig/cmd/tools/dijkstra.c graphviz-2.26.3/cmd/tools/dijkstra.c
+--- graphviz-2.26.3.orig/cmd/tools/dijkstra.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/dijkstra.c	2010-02-01 22:03:42.000000000 +0100
+@@ -237,7 +237,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+Only in graphviz-2.26.3/cmd/tools: dijkstra.c.orig
+diff -ur graphviz-2.26.3.orig/cmd/tools/gc.c graphviz-2.26.3/cmd/tools/gc.c
+--- graphviz-2.26.3.orig/cmd/tools/gc.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/gc.c	2010-02-01 22:03:42.000000000 +0100
+@@ -86,7 +86,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+diff -ur graphviz-2.26.3.orig/cmd/tools/gvcolor.c graphviz-2.26.3/cmd/tools/gvcolor.c
+--- graphviz-2.26.3.orig/cmd/tools/gvcolor.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/gvcolor.c	2010-02-01 22:03:42.000000000 +0100
+@@ -88,7 +88,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+diff -ur graphviz-2.26.3.orig/cmd/tools/gvpack.c graphviz-2.26.3/cmd/tools/gvpack.c
+--- graphviz-2.26.3.orig/cmd/tools/gvpack.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/gvpack.c	2010-02-01 22:03:42.000000000 +0100
+@@ -92,7 +92,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+Only in graphviz-2.26.3/cmd/tools: mm2gv.c.orig
+Only in graphviz-2.26.3/cmd/tools: mm2gv.c.rej
+diff -ur graphviz-2.26.3.orig/cmd/tools/nop.c graphviz-2.26.3/cmd/tools/nop.c
+--- graphviz-2.26.3.orig/cmd/tools/nop.c	2010-01-08 22:28:39.000000000 +0100
++++ graphviz-2.26.3/cmd/tools/nop.c	2010-02-01 22:03:42.000000000 +0100
+@@ -42,7 +42,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+--- graphviz-2.28.0/cmd/gvedit/main.cpp.str	2011-05-11 16:42:30.000000000 +0200
++++ graphviz-2.28.0/cmd/gvedit/main.cpp	2011-05-11 16:42:41.000000000 +0200
+@@ -65,7 +65,7 @@
+ 
+ static void usage(int v)
+ {
+-    printf(useString);
++    printf("%s",useString);
+     exit(v);
+ }
+ 
+--- graphviz-2.28.0/lib/ortho/ortho.c.str	2011-05-11 16:37:37.000000000 +0200
++++ graphviz-2.28.0/lib/ortho/ortho.c	2011-05-11 16:37:53.000000000 +0200
+@@ -1520,7 +1520,7 @@
+     absbb.LL.x = absbb.LL.y = MAXDOUBLE;
+     absbb.UR.x = absbb.UR.y = -MAXDOUBLE;
+ 
+-    fprintf (fp, prolog2);
++    fprintf (fp, "%s", prolog2);
+     fprintf (fp, "%d %d translate\n", TRANS, TRANS);
+ 
+     fputs ("0 0 1 setrgbcolor\n", fp);
