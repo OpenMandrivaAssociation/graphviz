@@ -1,0 +1,48 @@
+--- cmd/dot/Makefile.in.orig	2013-02-23 11:26:50.729883499 +0000
++++ cmd/dot/Makefile.in	2013-02-23 11:28:44.263888094 +0000
+@@ -70,8 +70,8 @@
+ @WITH_LIBGD_TRUE@am__append_5 = $(top_builddir)/plugin/gd/libgvplugin_gd.la $(GD_LIBS)
+ @WITH_PANGOCAIRO_TRUE@@WITH_WEBP_TRUE@am__append_6 = $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
+ @WITH_PANGOCAIRO_TRUE@@WITH_WEBP_TRUE@am__append_7 = $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
+-@WITH_PANGOCAIRO_TRUE@am__append_8 = $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS)
+-@WITH_PANGOCAIRO_TRUE@am__append_9 = $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS)
++@WITH_PANGOCAIRO_TRUE@am__append_8 = $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
++@WITH_PANGOCAIRO_TRUE@am__append_9 = $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
+ @WITH_PANGOCAIRO_TRUE@@WITH_WEBP_TRUE@am__append_10 = $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
+ @WITH_PANGOCAIRO_TRUE@@WITH_WEBP_TRUE@am__append_11 = $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
+ @WITH_LASI_TRUE@am__append_12 = $(top_builddir)/plugin/lasi/.libs/libgvplugin_lasi_C.a \
+--- cmd/dot/Makefile.am.orig	2013-02-23 11:26:45.574883291 +0000
++++ cmd/dot/Makefile.am	2013-02-23 11:27:51.231885948 +0000
+@@ -117,8 +117,8 @@
+ dot_static_LDADD += $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
+ dot_builtins_LDADD += $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
+ endif
+-dot_static_LDADD += $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS)
+-dot_builtins_LDADD += $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS)
++dot_static_LDADD += $(top_builddir)/plugin/pango/.libs/libgvplugin_pango_C.a $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
++dot_builtins_LDADD += $(top_builddir)/plugin/pango/libgvplugin_pango.la $(PANGOCAIRO_LIBS) $(PANGOFT2_LIBS)
+ if WITH_WEBP
+ dot_static_LDADD += $(top_builddir)/plugin/webp/.libs/libgvplugin_webp_C.a $(WEBP_LIBS)
+ dot_builtins_LDADD += $(top_builddir)/plugin/webp/libgvplugin_webp.la $(WEBP_LIBS)
+--- plugin/gtk/Makefile.am.orig	2013-02-23 11:25:20.238879837 +0000
++++ plugin/gtk/Makefile.am	2013-02-23 11:25:40.256880647 +0000
+@@ -37,7 +37,7 @@
+ 
+ libgvplugin_gtk_la_LDFLAGS = -version-info @GVPLUGIN_VERSION_INFO@
+ libgvplugin_gtk_la_SOURCES = $(libgvplugin_gtk_C_la_SOURCES)
+-libgvplugin_gtk_la_LIBADD = $(GTK_LIBS)
++libgvplugin_gtk_la_LIBADD = $(GTK_LIBS) -lX11
+ 
+ if WITH_WIN32
+ libgvplugin_gtk_la_LDFLAGS += -no-undefined
+--- plugin/gtk/Makefile.in.orig	2013-02-23 11:25:47.896880957 +0000
++++ plugin/gtk/Makefile.in	2013-02-23 11:26:20.128882261 +0000
+@@ -535,7 +535,7 @@
+ libgvplugin_gtk_la_LDFLAGS = -version-info @GVPLUGIN_VERSION_INFO@ \
+ 	$(am__append_1) $(am__append_2)
+ libgvplugin_gtk_la_SOURCES = $(libgvplugin_gtk_C_la_SOURCES)
+-libgvplugin_gtk_la_LIBADD = $(GTK_LIBS)
++libgvplugin_gtk_la_LIBADD = $(GTK_LIBS) -lX11
+ EXTRA_DIST = gtk.glade gtk.gladep 
+ all: all-am
+ 

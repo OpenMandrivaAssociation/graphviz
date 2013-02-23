@@ -1,0 +1,11 @@
+--- configure.ac.orig	2013-02-23 11:34:00.378900886 +0000
++++ configure.ac	2013-02-23 11:32:55.926898278 +0000
+@@ -1567,7 +1567,7 @@
+ 	    if test "x$DARWIN" == "xyes"; then
+ 	      RUBY_CFLAGS=`echo $RUBY_CFLAGS | sed 's/powerpc/universal/'`
+ 	    fi
+-            RUBY_LIBS="-L`$RUBY $srcdir/config/config_ruby.rb lib` `$RUBY -rrbconfig -e \"puts Config::CONFIG[['LIBRUBYARG_SHARED']]\"`"
++            RUBY_LIBS="$(pkg-config --libs ruby-1.9)"
+             RUBY_INSTALL_DIR="`$RUBY $srcdir/config/config_ruby.rb vendorarchdir`"
+ 	    if test "x$RUBY_INSTALL_DIR" == "x"; then
+ 	  	  RUBY_INSTALL_DIR="`$RUBY $srcdir/config/config_ruby.rb sitearchdir`"

@@ -29,16 +29,14 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.28.0
-Release:	7
+Version:	2.30.1
+Release:	1
 Group:		Graphics
 License:	Common Public License
 URL:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
-Patch0:		graphviz-2.28.0-linkage.patch
-Patch4:		graphviz-2.28.0-fix-format-errors.patch
-Patch5:		graphviz-2.28.0-ruby1.9.patch
-Patch6:		graphviz-2.28.0-new-automake-fix.patch
+Patch0:		graphviz-2.30.1-linkage.patch
+Patch5:		graphviz-2.30.1-ruby1.9.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	libtool
@@ -376,9 +374,7 @@ Static development package for %{name}.
 %prep
 %setup -q
 %patch0 -p0 -b .link
-%patch4 -p1 -b .format
-%patch5 -p1 -b .ruby19~
-%patch6 -p1 -b .automake~
+%patch5 -p0 -b .ruby19~
 autoreconf -f
 
 %build
