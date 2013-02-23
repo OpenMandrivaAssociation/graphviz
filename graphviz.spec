@@ -15,7 +15,6 @@
 
 %define lib_cdt %mklibname cdt %{cdt_major}
 %define lib_cgraph %mklibname cgraph %{cgraph_major}
-%define lib_graph %mklibname graph %{graph_major}
 %define lib_gvc %mklibname gvc %{gvc_major}
 %define lib_gvpr %mklibname gvpr %{gvpr_major}
 %define lib_pathplan %mklibname pathplan %{pathplan_major}
@@ -114,21 +113,6 @@ This package provides the cgraph shared library for %{name}.
 
 %files -n %{lib_cgraph}
 %{_libdir}/libcgraph.so.%{cgraph_major}*
-
-#-------------------------------------------------------------------------
-
-%package -n %{lib_graph}
-Group:		System/Libraries
-Summary:	Shared library for %{name}
-Conflicts:	%{_lib}graphviz4 < 2.26
-Obsoletes:	%{_lib}graphviz4 < 2.26
-
-%description -n %{lib_graph}
-This package provides the graph shared library for %{name}.
-
-%files -n %{lib_graph}
-%defattr(-,root,root)
-%{_libdir}/libgraph.so.%{graph_major}*
 
 #-------------------------------------------------------------------------
 
@@ -335,7 +319,6 @@ Obsoletes:	%{mklibname tcl -d 7} < 2.28.0-4
 Obsoletes:	%{mklibname -d graphviz 3} < 2.28.0-4
 Requires:	%{lib_cdt} = %{version}
 Requires:	%{lib_cgraph} = %{version}
-Requires:	%{lib_graph} = %{version}
 Requires:	%{lib_gvc} = %{version}
 Requires:	%{lib_gvpr} = %{version}
 Requires:	%{lib_pathplan} = %{version}
