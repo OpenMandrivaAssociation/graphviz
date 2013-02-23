@@ -36,6 +36,7 @@ URL:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Patch0:		graphviz-2.30.1-linkage.patch
 Patch5:		graphviz-2.30.1-ruby1.9.patch
+Patch6:		graphviz-2.30.1-pkgconfig.patch
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	libtool
@@ -358,6 +359,7 @@ Static development package for %{name}.
 %setup -q
 %patch0 -p0 -b .link
 %patch5 -p0 -b .ruby19~
+%patch6 -p0 -b .pkgconfig
 autoreconf -f
 
 %build

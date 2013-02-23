@@ -1,0 +1,10 @@
+--- lib/gvc/libgvc.pc.in.orig	2013-02-23 20:09:24.352375169 +0000
++++ lib/gvc/libgvc.pc.in	2013-02-23 20:09:33.643375545 +0000
+@@ -7,6 +7,6 @@
+ Name: libgvc
+ Description: The GraphVizContext library 
+ Version: @VERSION@
+-Libs: -L${libdir} -lgvc -lgraph -lcdt
++Libs: -L${libdir} -lgvc -lcgraph -lcdt
+ Cflags: -I${includedir}
+ 
