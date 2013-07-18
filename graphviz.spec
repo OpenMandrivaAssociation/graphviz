@@ -4,6 +4,7 @@
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
+%bcond_without bootstrap
 
 %define cdt_major 5
 %define cgraph_major 6
@@ -161,6 +162,7 @@ This package provides the xdot shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if %with bootstrap
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -291,7 +293,8 @@ This package provides the OCaml extension for %{name}.
 
 %files -n ocaml-graphviz
 %{_libdir}/graphviz/ocaml
-
+# end of bootstrap
+%endif
 #-------------------------------------------------------------------------
 
 %package -n %{devname}
@@ -354,10 +357,12 @@ autoreconf -f
 %else
 	--disable-r \
 %endif
+%if %with bootstrap
 	--enable-ocaml \
 	--enable-perl \
 	--enable-php \
 	--enable-python \
+%endif
 	--disable-guile \
 	--disable-sharp \
 	--with-pangocairo \
@@ -374,7 +379,9 @@ autoreconf -f
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
 mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_docdir}/%{name}
+%if !%without bootstrap
 mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_docdir}/%{name}
+%endif
 
 %post
 %{_bindir}/dot -c
