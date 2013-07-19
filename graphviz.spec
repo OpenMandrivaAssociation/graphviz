@@ -4,7 +4,10 @@
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
-%bcond_without bootstrap
+%bcond_with bootstrap
+%if %{with bootstrap}
+%bcond_with java
+%endif
 
 %define cdt_major 5
 %define cgraph_major 6
@@ -162,7 +165,6 @@ This package provides the xdot shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
-%if %with bootstrap
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -251,7 +253,8 @@ This package provides the Tcl extension for %{name}.
 %{_libdir}/graphviz/tcl
 
 #-------------------------------------------------------------------------
-
+# start of bcond_java
+%if !%with java
 %define jdk_path %{_prefix}/lib/jvm/java
 %define java_includes %{_includedir}/libgcj
 
@@ -265,6 +268,8 @@ This package provides the Java extension for %{name}.
 
 %files -n java-graphviz
 %{_libdir}/graphviz/java
+# end of bcond_java
+%endif
 
 #-------------------------------------------------------------------------
 %if %with libr
@@ -293,8 +298,6 @@ This package provides the OCaml extension for %{name}.
 
 %files -n ocaml-graphviz
 %{_libdir}/graphviz/ocaml
-# end of bootstrap
-%endif
 #-------------------------------------------------------------------------
 
 %package -n %{devname}
