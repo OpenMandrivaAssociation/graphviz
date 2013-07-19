@@ -33,7 +33,7 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.30.1
-Release:	2
+Release:	3
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
@@ -200,7 +200,7 @@ This package provides the PHP extension for %{name}.
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
 Group:		System/Libraries
-%py_requires -d
+BuildRequires: python-devel
 
 %description -n python-graphviz
 This package provides the Python extension for %{name}.
