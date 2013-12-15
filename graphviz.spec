@@ -1,6 +1,5 @@
 # disable madness
 %define _unpackaged_subdirs_terminate_build 0
-%define __noautoreq '/usr/bin/php'
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
@@ -27,13 +26,13 @@
 %define staticname %mklibname graphviz -d -s
 
 %if %{_use_internal_dependency_generator}
-%define __noautoreq '/usr/bin/lua'
+%define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
 %endif
 
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.30.1
-Release:	8
+Release:	9
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
