@@ -38,6 +38,7 @@ Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+Source1:	%{name}.rpmlintrc
 Patch0:		graphviz-2.30.1-linkage.patch
 Patch5:		graphviz-2.30.1-ruby1.9.patch
 Patch6:		graphviz-2.30.1-pkgconfig.patch
