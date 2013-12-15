@@ -222,6 +222,7 @@ This package provides the Ruby extension for %{name}.
 %files -n ruby-graphviz
 %{_libdir}/graphviz/ruby
 %{_prefix}/lib/ruby
+%{_libdir}/ruby/vendor_ruby/gv.so
 
 #-------------------------------------------------------------------------
 
