@@ -32,7 +32,7 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.30.1
-Release:	9
+Release:	10
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
