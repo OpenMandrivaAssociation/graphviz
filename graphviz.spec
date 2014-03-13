@@ -39,8 +39,7 @@ Url:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Patch0:		graphviz-2.30.1-linkage.patch
-Patch5:		graphviz-2.30.1-ruby1.9.patch
-Patch6:		graphviz-2.30.1-pkgconfig.patch
+Patch5:		graphviz-2.36.0-ruby1.9.patch
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -221,7 +220,7 @@ This package provides the Ruby extension for %{name}.
 
 %files -n ruby-graphviz
 %{_libdir}/graphviz/ruby
-%{_libdir}/ruby
+%{ruby_vendorarchdir}/*
 
 #-------------------------------------------------------------------------
 
@@ -343,8 +342,7 @@ Static development package for %{name}.
 %prep
 %setup -q
 %patch0 -p0 -b .link
-%patch5 -p0 -b .ruby19~
-%patch6 -p0 -b .pkgconfig
+%patch5 -p1 -b .ruby19~
 autoreconf -f
 
 %build
