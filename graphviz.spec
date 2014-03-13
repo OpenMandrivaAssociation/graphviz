@@ -1,6 +1,5 @@
 # disable madness
 %define _unpackaged_subdirs_terminate_build 0
-
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
@@ -27,20 +26,20 @@
 %define staticname %mklibname graphviz -d -s
 
 %if %{_use_internal_dependency_generator}
-%define __noautoreq '/usr/bin/lua'
+%define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
 %endif
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.30.1
-Release:	5
+Version:	2.36.0
+Release:	1
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+Source1:	%{name}.rpmlintrc
 Patch0:		graphviz-2.30.1-linkage.patch
-Patch5:		graphviz-2.30.1-ruby1.9.patch
-Patch6:		graphviz-2.30.1-pkgconfig.patch
+Patch5:		graphviz-2.36.0-ruby1.9.patch
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -221,7 +220,7 @@ This package provides the Ruby extension for %{name}.
 
 %files -n ruby-graphviz
 %{_libdir}/graphviz/ruby
-%{_prefix}/lib/ruby
+%{ruby_vendorarchdir}/*
 
 #-------------------------------------------------------------------------
 
@@ -343,8 +342,7 @@ Static development package for %{name}.
 %prep
 %setup -q
 %patch0 -p0 -b .link
-%patch5 -p0 -b .ruby19~
-%patch6 -p0 -b .pkgconfig
+%patch5 -p1 -b .ruby19~
 autoreconf -f
 
 %build
