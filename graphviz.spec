@@ -213,7 +213,7 @@ This package provides the Python extension for %{name}.
 %package -n ruby-graphviz
 Summary:	Graphviz bindings for ruby
 Group:		System/Libraries
-BuildRequires:	ruby-devel
+BuildRequires:	pkgconfig(ruby)
 
 %description -n ruby-graphviz
 This package provides the Ruby extension for %{name}.
