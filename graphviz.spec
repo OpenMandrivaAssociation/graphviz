@@ -3,7 +3,7 @@
 %define _disable_ld_no_undefined 1
 %bcond_without static
 %bcond_with libr
-%bcond_with bootstrap
+%bcond_without bootstrap
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
