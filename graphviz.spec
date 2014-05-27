@@ -6,6 +6,12 @@
 %bcond_with bootstrap
 %if %{with bootstrap}
 %bcond_with java
+%bcond_with php
+%bcond_with ocaml
+%else
+%bcond_without java
+%bcond_without php
+%bcond_without ocaml
 %endif
 
 %define cdt_major 5
@@ -52,13 +58,15 @@ BuildRequires:	libltdl-devel
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(freetype2)
+%if !%{with bootstrap}
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gtkglext-1.0)
 BuildRequires:	pkgconfig(gtkgl-2.0)
+BuildRequires:	pkgconfig(librsvg-2.0)
+%endif
 BuildRequires:	pkgconfig(libcurl)
 BuildRequires:	pkgconfig(libpng)
-BuildRequires:	pkgconfig(librsvg-2.0)
 BuildRequires:	pkgconfig(pango)
 BuildRequires:	pkgconfig(pangocairo)
 BuildRequires:	pkgconfig(x11)
@@ -180,6 +188,7 @@ This package provides the Lua extension for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if %with php
 %package  -n php-graphviz
 Summary:	Graphviz bindings for php
 Group:		System/Libraries
@@ -193,6 +202,7 @@ This package provides the PHP extension for %{name}.
 %{_libdir}/graphviz/php
 %{_libdir}/php/modules/gv.so
 %{_datadir}/php/gv.php
+%endif
 
 #-------------------------------------------------------------------------
 
@@ -214,7 +224,6 @@ This package provides the Python extension for %{name}.
 Summary:	Graphviz bindings for ruby
 Group:		System/Libraries
 BuildRequires:	pkgconfig(ruby)
-BuildRequires:	jruby-devel
 
 %description -n ruby-graphviz
 This package provides the Ruby extension for %{name}.
@@ -254,7 +263,7 @@ This package provides the Tcl extension for %{name}.
 
 #-------------------------------------------------------------------------
 # start of bcond_java
-%if !%with java
+%if %with java
 %define jdk_path %{_prefix}/lib/jvm/java
 %define java_includes %{_includedir}/libgcj
 
@@ -262,6 +271,7 @@ This package provides the Tcl extension for %{name}.
 Summary:	Graphviz bindings for java
 Group:		System/Libraries
 BuildRequires:	java-devel
+BuildRequires:	jruby-devel
 
 %description -n java-graphviz
 This package provides the Java extension for %{name}.
@@ -288,6 +298,7 @@ This package provides the R extension for %{name}.
 %endif
 #-------------------------------------------------------------------------
 
+%if %with ocaml
 %package -n ocaml-graphviz
 Summary:	Graphviz bindings for OCaml
 Group:		System/Libraries
@@ -299,6 +310,7 @@ This package provides the OCaml extension for %{name}.
 %files -n ocaml-graphviz
 %{_libdir}/graphviz/ocaml
 #-------------------------------------------------------------------------
+%endif
 
 %package -n %{devname}
 Summary:	Development package for %{name}
@@ -359,7 +371,7 @@ autoreconf -f
 %else
 	--disable-r \
 %endif
-%if %with bootstrap
+%if !%with bootstrap
 	--enable-ocaml \
 	--enable-perl \
 	--enable-php \
