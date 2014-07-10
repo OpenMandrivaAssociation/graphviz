@@ -9,11 +9,13 @@
 %bcond_with php
 %bcond_with ocaml
 %bcond_with ruby
+%bcond_with python
 %else
 %bcond_without java
 %bcond_without php
 %bcond_without ocaml
 %bcond_without ruby
+%bcond_without python
 %endif
 
 %define cdt_major 5
@@ -208,6 +210,7 @@ This package provides the PHP extension for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if %{with python}
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
 Group:		System/Libraries
@@ -219,6 +222,7 @@ This package provides the Python extension for %{name}.
 %files -n python-graphviz
 %{_libdir}/graphviz/python
 %py_platsitedir/*
+%endif
 
 #-------------------------------------------------------------------------
 %if %{with ruby}
@@ -362,7 +366,9 @@ Static development package for %{name}.
 autoreconf -f
 
 %build
-%configure2_5x \
+export CC=%{__cc}
+export CXX=%{__cxx}
+%configure \
 	--with-x \
 %if %without static
 	--disable-static \
