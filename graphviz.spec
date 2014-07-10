@@ -8,10 +8,12 @@
 %bcond_with java
 %bcond_with php
 %bcond_with ocaml
+%bcond_with ruby
 %else
 %bcond_without java
 %bcond_without php
 %bcond_without ocaml
+%bcond_without ruby
 %endif
 
 %define cdt_major 5
@@ -219,7 +221,7 @@ This package provides the Python extension for %{name}.
 %py_platsitedir/*
 
 #-------------------------------------------------------------------------
-
+%if %{with ruby}
 %package -n ruby-graphviz
 Summary:	Graphviz bindings for ruby
 Group:		System/Libraries
@@ -231,6 +233,7 @@ This package provides the Ruby extension for %{name}.
 %files -n ruby-graphviz
 %{_libdir}/graphviz/ruby
 %{ruby_vendorarchdir}/*
+%endif
 
 #-------------------------------------------------------------------------
 
@@ -374,6 +377,7 @@ autoreconf -f
 %if !%with bootstrap
 	--enable-ocaml \
 	--enable-perl \
+	--enable-ruby \
 	--enable-php \
 	--enable-python \
 %endif
