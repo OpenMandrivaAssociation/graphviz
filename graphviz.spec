@@ -1,6 +1,8 @@
 # disable madness
 %define _unpackaged_subdirs_terminate_build 0
 %define _disable_ld_no_undefined 1
+%define _disable_rebuild_configure 1
+
 %bcond_without static
 %bcond_with libr
 %bcond_without bootstrap
@@ -50,6 +52,7 @@ Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 Patch0:		graphviz-2.30.1-linkage.patch
 Patch5:		graphviz-2.36.0-ruby1.9.patch
+Patch6:		graphviz-2.38.0-ocaml-fix-ints.patch
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -361,9 +364,9 @@ Static development package for %{name}.
 
 %prep
 %setup -q
-%patch0 -p0 -b .link
-%patch5 -p1 -b .ruby19~
-autoreconf -f
+%apply_patches
+
+autoreconf -fiv
 
 %build
 export CC=%{__cc}
