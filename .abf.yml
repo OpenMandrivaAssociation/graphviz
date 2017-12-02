@@ -1,5 +1,6 @@
 removed_sources:
   graphviz-2.30.1.tar.gz: 96739220c4bbcf1bd3bd52e7111f4e60497185c6
   graphviz-2.36.0.tar.gz: a41e9f1cbcc9a24651e14dd15a4cda3d912d7d19
-sources:
   graphviz-2.38.0.tar.gz: 053c771278909160916ca5464a0a98ebf034c6ef
+sources:
+  graphviz-20171130.tar.gz: 4f92e76f6d70a2d4c977c1b1e1ac3824ddbcdf3c
