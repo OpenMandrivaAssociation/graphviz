@@ -47,8 +47,8 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	20171130
-Release:	1
+Version:	2.38.1
+Release:	0.20171130
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
@@ -237,7 +237,7 @@ This package provides the Python2 extension for %{name}.
 
 %files -n python2-graphviz
 %{_libdir}/graphviz/python2/*
-%{_libdir}/python2.7/site-packages/*
+%{_libdir}/python2*/site-packages/*
 %endif
 
 #-------------------------------------------------------------------------
@@ -253,7 +253,7 @@ This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
 %{_libdir}/graphviz/python3/*
-%{_libdir}/python3.4/site-packages/*
+%{_libdir}/python3*/site-packages/*
 %endif
 
 #-------------------------------------------------------------------------
@@ -397,12 +397,10 @@ Static development package for %{name}.
 
 #cat >./version.m4 <<EOF
 
-#autoreconf -fiv
-
 %build
 export CC=%{__cc}
 export CXX=%{__cxx}
-%{_builddir}/%{name}-%{version}/autogen.sh
+./autogen.sh
 
 %configure \
 	--with-x \
