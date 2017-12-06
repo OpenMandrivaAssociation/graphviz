@@ -17,6 +17,7 @@
 %bcond_without php
 %bcond_without ocaml
 %bcond_without ruby
+%bcond_without python2
 %bcond_without python
 %endif
 
@@ -27,6 +28,7 @@
 %define gvpr_major 2
 %define pathplan_major 4
 %define xdot_major 4
+%define lab_gamut_major 1
 
 %define libcdt %mklibname cdt %{cdt_major}
 %define libcgraph %mklibname cgraph %{cgraph_major}
@@ -34,6 +36,8 @@
 %define libgvpr %mklibname gvpr %{gvpr_major}
 %define libpathplan %mklibname pathplan %{pathplan_major}
 %define libxdot %mklibname xdot %{xdot_major}
+%define liblab_gamut %mklibname lab_gamut %{lab_gamut_major}
+#%%define libgv %mklibname gv
 %define devname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
@@ -43,16 +47,13 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.38.0
-Release:	5
+Version:	2.38.1
+Release:	0.20171130
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
 Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
-Patch0:		graphviz-2.30.1-linkage.patch
-Patch5:		graphviz-2.36.0-ruby1.9.patch
-Patch6:		graphviz-2.38.0-ocaml-fix-ints.patch
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -179,6 +180,18 @@ This package provides the xdot shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
+%package -n %{liblab_gamut}
+Group:          System/Libraries
+Summary:        Shared library for %{name}
+
+%description -n %{liblab_gamut}
+This package provides the lab_gamut  shared library for %{name}.
+
+%files -n %{liblab_gamut}
+%{_libdir}/liblab_gamut.so.%{lab_gamut_major}*
+
+#-------------------------------------------------------------------------
+
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -213,6 +226,22 @@ This package provides the PHP extension for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if %{with python2}
+%package -n python2-graphviz
+Summary:        Graphviz bindings for python
+Group:          System/Libraries
+BuildRequires: python2-devel
+
+%description -n python2-graphviz
+This package provides the Python2 extension for %{name}.
+
+%files -n python2-graphviz
+%{_libdir}/graphviz/python2/*
+%{_libdir}/python2*/site-packages/*
+%endif
+
+#-------------------------------------------------------------------------
+
 %if %{with python}
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
@@ -223,8 +252,8 @@ BuildRequires: python-devel
 This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
-%{_libdir}/graphviz/python
-%py_platsitedir/*
+%{_libdir}/graphviz/python3/*
+%{_libdir}/python3*/site-packages/*
 %endif
 
 #-------------------------------------------------------------------------
@@ -288,9 +317,9 @@ This package provides the Java extension for %{name}.
 
 %files -n java-graphviz
 %{_libdir}/graphviz/java
+#%%{_libdir}/graphviz/java/org/graphiz/*
 # end of bcond_java
 %endif
-
 #-------------------------------------------------------------------------
 %if %with libr
 
@@ -366,11 +395,13 @@ Static development package for %{name}.
 %setup -q
 %apply_patches
 
-autoreconf -fiv
+#cat >./version.m4 <<EOF
 
 %build
 export CC=%{__cc}
 export CXX=%{__cxx}
+./autogen.sh
+
 %configure \
 	--with-x \
 %if %without static
@@ -384,11 +415,13 @@ export CXX=%{__cxx}
 	--disable-r \
 %endif
 %if !%with bootstrap
+	--enable-swig \
 	--enable-ocaml \
 	--enable-perl \
 	--enable-ruby \
 	--enable-php \
-	--enable-python \
+	--enable-python2 \
+	--enable-python3 \
 %endif
 	--disable-guile \
 	--disable-sharp \
