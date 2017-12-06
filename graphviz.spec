@@ -41,6 +41,8 @@
 %define devname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
+%define snapshot 20171130
+
 %if %{_use_internal_dependency_generator}
 %define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
 %endif
@@ -48,11 +50,16 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.38.1
-Release:	0.20171130
+%if ! 0%snapshot
+Release:	1
+Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+%else
+Release:	0.%{snapshot}.1
+Source0:	%{name}-%{snapshot}.tar.gz
+%endif
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
-Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
 Source1:	%{name}.rpmlintrc
 
 BuildRequires:	bison >= 2.3
@@ -392,10 +399,12 @@ Static development package for %{name}.
 #-------------------------------------------------------------------------
 
 %prep
+%if 0%snapshot
+%setup -qn %{name}-%{snapshot}
+%else
 %setup -q
+%endif
 %apply_patches
-
-#cat >./version.m4 <<EOF
 
 %build
 export CC=%{__cc}
