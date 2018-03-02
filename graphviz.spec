@@ -43,9 +43,7 @@
 
 %define snapshot 20171130
 
-%if %{_use_internal_dependency_generator}
 %define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
-%endif
 
 Summary:	Graph visualization tools
 Name:		graphviz
