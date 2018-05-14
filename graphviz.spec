@@ -11,6 +11,7 @@
 %bcond_with php
 %bcond_with ocaml
 %bcond_with ruby
+%bcond_with python2
 %bcond_with python
 %else
 %bcond_without java
@@ -41,20 +42,21 @@
 %define devname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
-%define snapshot 20171130
+%define snapshot %{nil}
 
 %define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.38.1
+Version:	2.40.1
 %if ! 0%snapshot
 Release:	1
-Source0:	http://www.graphviz.org/pub/graphviz/ARCHIVE/%{name}-%{version}.tar.gz
+Source0:	https://gitlab.com/graphviz/graphviz/-/archive/stable_release_%{version}/graphviz-stable_release_%{version}.tar.bz2
 %else
 Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.gz
 %endif
+Patch0:		graphviz-2.40.1-perl-headers.patch
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
@@ -87,6 +89,21 @@ BuildRequires:	pkgconfig(xaw7)
 BuildRequires:	pkgconfig(xmu)
 BuildRequires:	pkgconfig(xt)
 BuildRequires:	pkgconfig(zlib)
+%if %{with java}
+BuildRequires:	java-devel
+%endif
+%if %{with php}
+BuildRequires:	php-devel
+%endif
+%if %{with ruby}
+BuildRequires:	ruby-devel
+%endif
+%if %{with python}
+BuildRequires:	pkgconfig(python3)
+%endif
+%if %{with python2}
+BuildRequires:	pkgconfig(python)
+%endif
 
 %description
 A collection of tools for the manipulation and layout
@@ -322,7 +339,6 @@ This package provides the Java extension for %{name}.
 
 %files -n java-graphviz
 %{_libdir}/graphviz/java
-#%%{_libdir}/graphviz/java/org/graphiz/*
 # end of bcond_java
 %endif
 #-------------------------------------------------------------------------
@@ -400,9 +416,12 @@ Static development package for %{name}.
 %if 0%snapshot
 %setup -qn %{name}-%{snapshot}
 %else
-%setup -q
+%setup -qn %{name}-stable_release_%{version}
 %endif
 %apply_patches
+%if "%{_libdir}" != "/usr/lib64"
+sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
+%endif
 
 %build
 export CC=%{__cc}
@@ -423,12 +442,40 @@ export CXX=%{__cxx}
 %endif
 %if !%with bootstrap
 	--enable-swig \
-	--enable-ocaml \
 	--enable-perl \
-	--enable-ruby \
-	--enable-php \
 	--enable-python2 \
 	--enable-python3 \
+%endif
+%if %{with java}
+	--enable-java \
+%else
+	--disable-java \
+%endif
+%if %{with php}
+	--enable-php \
+%else
+	--disable-php \
+%endif
+%if %{with ocaml}
+	--enable-ocaml \
+%else
+	--disable-ocaml \
+%endif
+%if %{with ruby}
+	--enable-ruby \
+%else
+	--disable-ruby \
+%endif
+%if %{with python2}
+	--enable-python27 \
+%else
+	--disable-python27 \
+%endif
+%if %{with python}
+	--enable-python \
+	--enable-python34 \
+%else
+	--disable-python \
 %endif
 	--disable-guile \
 	--disable-sharp \
