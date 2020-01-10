@@ -429,7 +429,7 @@ Static development package for %{name}.
 %else
 %setup -qn %{name}-stable_release_%{version}
 %endif
-%apply_patches
+%autopatch -p1
 %if "%{_libdir}" != "/usr/lib64"
 sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 %endif
