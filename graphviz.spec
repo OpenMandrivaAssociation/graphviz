@@ -43,14 +43,13 @@
 %define staticname %mklibname graphviz -d -s
 
 %define snapshot %{nil}
-
-%define __noautoreq '(/usr/bin/lua|/usr/bin/php|/usr/bin/tclsh)'
+%global __requires_exclude_from %{?__requires_exclude_from:%__requires_exclude_from|}^%{_docdir}
 
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.40.1
 %if ! 0%snapshot
-Release:	2
+Release:	3
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/stable_release_%{version}/graphviz-stable_release_%{version}.tar.bz2
 %else
 Release:	0.%{snapshot}.1
@@ -497,10 +496,10 @@ export CXX=%{__cxx}
 	--disable-io \
 	--disable-dependency-tracking
 
-%make TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11"
+%make_build TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11"
 
 %install
-%makeinstall_std
+%make_install
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
@@ -514,4 +513,3 @@ mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_docdir}/%{name}
 
 %postun
 if ! test -x %{_bindir}/dot; then rm -f %{_libdir}/%{name}/config; fi
-
