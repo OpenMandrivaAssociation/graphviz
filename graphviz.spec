@@ -50,7 +50,7 @@ Name:		graphviz
 Version:	2.44.1
 %if ! 0%snapshot
 Release:	1
-Source0:	https://gitlab.com/graphviz/graphviz/-/archive/stable_release_%{version}/graphviz-stable_release_%{version}.tar.bz2
+Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 %else
 Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.gz
@@ -426,7 +426,7 @@ Static development package for %{name}.
 %if 0%snapshot
 %setup -qn %{name}-%{snapshot}
 %else
-%setup -qn %{name}-stable_release_%{version}
+%setup -qn %{name}-%{version}
 %endif
 %autopatch -p1
 %if "%{_libdir}" != "/usr/lib64"
