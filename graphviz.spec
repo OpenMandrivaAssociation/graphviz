@@ -437,8 +437,10 @@ sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 rm -rf libltdl
 
 %build
-export CC=%{__cc}
-export CXX=%{__cxx}
+#export CC=%{__cc}
+#export CXX=%{__cxx}
+export CC=gcc
+export CXX=g++
 ./autogen.sh
 
 %configure \
