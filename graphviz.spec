@@ -2,6 +2,7 @@
 %define _unpackaged_subdirs_terminate_build 0
 %define _disable_ld_no_undefined 1
 %define _disable_rebuild_configure 1
+%define _disable_lto 1
 
 %bcond_without static
 %bcond_with libr
