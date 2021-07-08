@@ -48,7 +48,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.47.0
+Version:	2.47.3
 %if ! 0%snapshot
 Release:	1
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -439,8 +439,8 @@ rm -rf libltdl
 %build
 #export CC=%{__cc}
 #export CXX=%{__cxx}
-export CC=gcc
-export CXX=g++
+#export CC=gcc
+#export CXX=g++
 ./autogen.sh
 
 %configure \
