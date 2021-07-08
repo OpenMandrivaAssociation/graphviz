@@ -439,8 +439,8 @@ rm -rf libltdl
 %build
 #export CC=%{__cc}
 #export CXX=%{__cxx}
-#export CC=gcc
-#export CXX=g++
+export CC=gcc
+export CXX=g++
 ./autogen.sh
 
 %configure \
