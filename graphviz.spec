@@ -75,7 +75,6 @@ Source1:	%{name}.rpmlintrc
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
-BuildRequires:	swig >= 1.3.29
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
 # jpeg:          No (only required by internal libgd)
@@ -85,6 +84,7 @@ BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(freetype2)
 %if !%{with bootstrap}
+BuildRequires:	swig >= 1.3.29
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gtkglext-1.0)
@@ -225,6 +225,7 @@ This package provides the lab_gamut  shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if !%{with bootstrap}
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -240,6 +241,7 @@ This package provides the Lua extension for %{name}.
 %{_libdir}/lua/%{lua_version}/gv.so
 
 #-------------------------------------------------------------------------
+%endif
 
 %if %with php
 %package  -n php-graphviz
@@ -306,6 +308,7 @@ This package provides the Ruby extension for %{name}.
 
 #-------------------------------------------------------------------------
 
+%if !%{with bootstrap}
 %package -n perl-graphviz
 Summary:	Graphviz bindings for perl
 Group:		System/Libraries
@@ -317,6 +320,7 @@ This package provides the Perl extension for %{name}.
 %files -n perl-graphviz
 %{perl_vendorarch}/*
 %{_libdir}/graphviz/perl
+%endif
 
 #-------------------------------------------------------------------------
 
