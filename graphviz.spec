@@ -6,7 +6,7 @@
 
 %bcond_without static
 %bcond_with libr
-%bcond_without bootstrap
+%bcond_with bootstrap
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
@@ -49,8 +49,13 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	2.40.1
+Group:		Graphics
+License:	Common Public License
+Url:		http://www.graphviz.org
+Source1:	%{name}.rpmlintrc
+
 %if ! 0%snapshot
-Release:	4
+Release:	5
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/stable_release_%{version}/graphviz-stable_release_%{version}.tar.bz2
 %else
 Release:	0.%{snapshot}.1
@@ -58,20 +63,16 @@ Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
 
-Patch1:                 graphviz-2.40.1-visio.patch
-Patch2:                 graphviz-2.40.1-python3.patch
+Patch1:		graphviz-2.40.1-visio.patch
+Patch2:		graphviz-2.40.1-python3.patch
 # https://gitlab.com/graphviz/graphviz/issues/1367
-Patch3:                 graphviz-2.40.1-CVE-2018-10196.patch
+Patch3:		graphviz-2.40.1-CVE-2018-10196.patch
 # rhbz#1505230
-Patch4:                 graphviz-2.40.1-dotty-menu-fix.patch
-Patch5:                 graphviz-2.40.1-coverity-scan-fixes.patch
-Patch6:                 graphviz-2.40.1-CVE-2019-11023.patch
-Patch7:                 graphviz-2.40.1-swig4-updated-language-options.patch
+Patch4:		graphviz-2.40.1-dotty-menu-fix.patch
+Patch5:		graphviz-2.40.1-coverity-scan-fixes.patch
+Patch6:		graphviz-2.40.1-CVE-2019-11023.patch
+Patch7:		graphviz-2.40.1-swig4-updated-language-options.patch
 
-Group:		Graphics
-License:	Common Public License
-Url:		http://www.graphviz.org
-Source1:	%{name}.rpmlintrc
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -123,7 +124,7 @@ of graphs (as in nodes and edges, not as in barcharts).
 %files
 %dir %{_libdir}/%{name}
 %{_bindir}/*
-%_mandir/man?/*
+%doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
 
@@ -214,8 +215,8 @@ This package provides the xdot shared library for %{name}.
 #-------------------------------------------------------------------------
 
 %package -n %{liblab_gamut}
-Group:          System/Libraries
-Summary:        Shared library for %{name}
+Group:		System/Libraries
+Summary:	Shared library for %{name}
 
 %description -n %{liblab_gamut}
 This package provides the lab_gamut  shared library for %{name}.
@@ -243,8 +244,8 @@ This package provides the Lua extension for %{name}.
 #-------------------------------------------------------------------------
 %endif
 
-%if %with php
-%package  -n php-graphviz
+%if %{with php}
+%package -n php-graphviz
 Summary:	Graphviz bindings for php
 Group:		System/Libraries
 BuildRequires:	php-devel
@@ -263,9 +264,9 @@ This package provides the PHP extension for %{name}.
 
 %if %{with python2}
 %package -n python2-graphviz
-Summary:        Graphviz bindings for python
-Group:          System/Libraries
-BuildRequires: python2-devel
+Summary:	Graphviz bindings for python
+Group:		System/Libraries
+BuildRequires:	python2-devel
 
 %description -n python2-graphviz
 This package provides the Python2 extension for %{name}.
@@ -281,7 +282,7 @@ This package provides the Python2 extension for %{name}.
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
 Group:		System/Libraries
-BuildRequires: python-devel
+BuildRequires:	pkgconfig(python)
 
 %description -n python-graphviz
 This package provides the Python extension for %{name}.
@@ -347,7 +348,6 @@ This package provides the Tcl extension for %{name}.
 Summary:	Graphviz bindings for java
 Group:		System/Libraries
 BuildRequires:	java-devel
-BuildRequires:	jruby-devel
 
 %description -n java-graphviz
 This package provides the Java extension for %{name}.
@@ -429,11 +429,11 @@ Static development package for %{name}.
 
 %prep
 %if 0%snapshot
-%setup -qn %{name}-%{snapshot}
+%autosetup -n %{name}-%{snapshot} -p1
 %else
-%setup -qn %{name}-stable_release_%{version}
+%autosetup -n %{name}-stable_release_%{version} -p1
 %endif
-%autopatch -p1
+
 %if "%{_libdir}" != "/usr/lib64"
 sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 %endif
