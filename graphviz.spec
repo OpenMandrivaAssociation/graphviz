@@ -67,7 +67,7 @@ Patch0:		graphviz-2.40.1-perl-headers.patch
 #Patch5:                 graphviz-2.40.1-coverity-scan-fixes.patch
 #Patch6:                 graphviz-2.40.1-CVE-2019-11023.patch
 #Patch7:                 graphviz-2.40.1-swig4-updated-language-options.patch
-Patch10:	graphviz-2.40.1-link.patch
+#Patch10:	graphviz-2.40.1-link.patch
 
 Group:		Graphics
 License:	Common Public License
