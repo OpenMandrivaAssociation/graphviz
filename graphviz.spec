@@ -2,7 +2,7 @@
 %define _unpackaged_subdirs_terminate_build 0
 %define _disable_ld_no_undefined 1
 %define _disable_rebuild_configure 1
-%define _disable_rebuild_configure 1
+%define _disable_lto 1
 
 %bcond_without static
 %bcond_with libr
@@ -48,30 +48,26 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.40.1
-Group:		Graphics
-License:	Common Public License
-Url:		http://www.graphviz.org
-Source1:	%{name}.rpmlintrc
-
+Version:	2.49.3
 %if ! 0%snapshot
-Release:	5
-Source0:	https://gitlab.com/graphviz/graphviz/-/archive/stable_release_%{version}/graphviz-stable_release_%{version}.tar.bz2
+Release:	1
+Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 %else
 Release:	0.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
 
-Patch1:		graphviz-2.40.1-visio.patch
-Patch2:		graphviz-2.40.1-python3.patch
+#Patch1:                 graphviz-2.40.1-visio.patch
+#Patch2:                 graphviz-2.40.1-python3.patch
 # https://gitlab.com/graphviz/graphviz/issues/1367
-Patch3:		graphviz-2.40.1-CVE-2018-10196.patch
+#Patch3:                 graphviz-2.40.1-CVE-2018-10196.patch
 # rhbz#1505230
-Patch4:		graphviz-2.40.1-dotty-menu-fix.patch
-Patch5:		graphviz-2.40.1-coverity-scan-fixes.patch
-Patch6:		graphviz-2.40.1-CVE-2019-11023.patch
-Patch7:		graphviz-2.40.1-swig4-updated-language-options.patch
+#Patch4:                 graphviz-2.40.1-dotty-menu-fix.patch
+#Patch5:                 graphviz-2.40.1-coverity-scan-fixes.patch
+#Patch6:                 graphviz-2.40.1-CVE-2019-11023.patch
+#Patch7:                 graphviz-2.40.1-swig4-updated-language-options.patch
+#Patch10:	graphviz-2.40.1-link.patch
 
 
 BuildRequires:	bison >= 2.3
@@ -431,7 +427,7 @@ Static development package for %{name}.
 %if 0%snapshot
 %autosetup -n %{name}-%{snapshot} -p1
 %else
-%autosetup -n %{name}-stable_release_%{version} -p1
+%setup -qn %{name}-%{version}
 %endif
 
 %if "%{_libdir}" != "/usr/lib64"
@@ -440,8 +436,10 @@ sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 rm -rf libltdl
 
 %build
-export CC=%{__cc}
-export CXX=%{__cxx}
+#export CC=%{__cc}
+#export CXX=%{__cxx}
+export CC=gcc
+export CXX=g++
 ./autogen.sh
 
 %configure \
