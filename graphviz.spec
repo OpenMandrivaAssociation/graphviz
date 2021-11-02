@@ -6,7 +6,7 @@
 
 %bcond_without static
 %bcond_with libr
-%bcond_with bootstrap
+%bcond_without bootstrap
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
@@ -67,11 +67,16 @@ Patch0:		graphviz-2.40.1-perl-headers.patch
 #Patch5:                 graphviz-2.40.1-coverity-scan-fixes.patch
 #Patch6:                 graphviz-2.40.1-CVE-2019-11023.patch
 #Patch7:                 graphviz-2.40.1-swig4-updated-language-options.patch
-#Patch10:	graphviz-2.40.1-link.patch
+Patch10:	graphviz-2.40.1-link.patch
 
+Group:		Graphics
+License:	Common Public License
+Url:		http://www.graphviz.org
+Source1:	%{name}.rpmlintrc
 
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
+BuildRequires:	swig >= 1.3.29
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
 # jpeg:          No (only required by internal libgd)
@@ -81,7 +86,6 @@ BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(freetype2)
 %if !%{with bootstrap}
-BuildRequires:	swig >= 1.3.29
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(gtk+-2.0)
 BuildRequires:	pkgconfig(gtkglext-1.0)
@@ -120,7 +124,7 @@ of graphs (as in nodes and edges, not as in barcharts).
 %files
 %dir %{_libdir}/%{name}
 %{_bindir}/*
-%doc %{_mandir}/man?/*
+%_mandir/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
 
@@ -211,8 +215,8 @@ This package provides the xdot shared library for %{name}.
 #-------------------------------------------------------------------------
 
 %package -n %{liblab_gamut}
-Group:		System/Libraries
-Summary:	Shared library for %{name}
+Group:          System/Libraries
+Summary:        Shared library for %{name}
 
 %description -n %{liblab_gamut}
 This package provides the lab_gamut  shared library for %{name}.
@@ -222,7 +226,6 @@ This package provides the lab_gamut  shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
-%if !%{with bootstrap}
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -238,10 +241,9 @@ This package provides the Lua extension for %{name}.
 %{_libdir}/lua/%{lua_version}/gv.so
 
 #-------------------------------------------------------------------------
-%endif
 
-%if %{with php}
-%package -n php-graphviz
+%if %with php
+%package  -n php-graphviz
 Summary:	Graphviz bindings for php
 Group:		System/Libraries
 BuildRequires:	php-devel
@@ -260,9 +262,9 @@ This package provides the PHP extension for %{name}.
 
 %if %{with python2}
 %package -n python2-graphviz
-Summary:	Graphviz bindings for python
-Group:		System/Libraries
-BuildRequires:	python2-devel
+Summary:        Graphviz bindings for python
+Group:          System/Libraries
+BuildRequires: python2-devel
 
 %description -n python2-graphviz
 This package provides the Python2 extension for %{name}.
@@ -278,7 +280,7 @@ This package provides the Python2 extension for %{name}.
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
 Group:		System/Libraries
-BuildRequires:	pkgconfig(python)
+BuildRequires: python-devel
 
 %description -n python-graphviz
 This package provides the Python extension for %{name}.
@@ -305,7 +307,6 @@ This package provides the Ruby extension for %{name}.
 
 #-------------------------------------------------------------------------
 
-%if !%{with bootstrap}
 %package -n perl-graphviz
 Summary:	Graphviz bindings for perl
 Group:		System/Libraries
@@ -317,7 +318,6 @@ This package provides the Perl extension for %{name}.
 %files -n perl-graphviz
 %{perl_vendorarch}/*
 %{_libdir}/graphviz/perl
-%endif
 
 #-------------------------------------------------------------------------
 
@@ -344,6 +344,7 @@ This package provides the Tcl extension for %{name}.
 Summary:	Graphviz bindings for java
 Group:		System/Libraries
 BuildRequires:	java-devel
+BuildRequires:	jruby-devel
 
 %description -n java-graphviz
 This package provides the Java extension for %{name}.
@@ -425,11 +426,11 @@ Static development package for %{name}.
 
 %prep
 %if 0%snapshot
-%autosetup -n %{name}-%{snapshot} -p1
+%setup -qn %{name}-%{snapshot}
 %else
 %setup -qn %{name}-%{version}
 %endif
-
+%autopatch -p1
 %if "%{_libdir}" != "/usr/lib64"
 sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 %endif
