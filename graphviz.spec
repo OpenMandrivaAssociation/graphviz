@@ -58,17 +58,6 @@ Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
 
-#Patch1:                 graphviz-2.40.1-visio.patch
-#Patch2:                 graphviz-2.40.1-python3.patch
-# https://gitlab.com/graphviz/graphviz/issues/1367
-#Patch3:                 graphviz-2.40.1-CVE-2018-10196.patch
-# rhbz#1505230
-#Patch4:                 graphviz-2.40.1-dotty-menu-fix.patch
-#Patch5:                 graphviz-2.40.1-coverity-scan-fixes.patch
-#Patch6:                 graphviz-2.40.1-CVE-2019-11023.patch
-#Patch7:                 graphviz-2.40.1-swig4-updated-language-options.patch
-Patch10:	graphviz-2.40.1-link.patch
-
 Group:		Graphics
 License:	Common Public License
 Url:		http://www.graphviz.org
