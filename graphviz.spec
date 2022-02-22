@@ -12,14 +12,12 @@
 %bcond_with php
 %bcond_with ocaml
 %bcond_with ruby
-%bcond_with python2
 %bcond_with python
 %else
 %bcond_without java
 %bcond_without php
 %bcond_without ocaml
 %bcond_without ruby
-%bcond_without python2
 %bcond_without python
 %endif
 
@@ -102,9 +100,6 @@ BuildRequires:	ruby-devel
 %if %{with python}
 BuildRequires:	pkgconfig(python3)
 %endif
-%if %{with python2}
-BuildRequires:	pkgconfig(python)
-%endif
 
 %description
 A collection of tools for the manipulation and layout
@@ -113,7 +108,7 @@ of graphs (as in nodes and edges, not as in barcharts).
 %files
 %dir %{_libdir}/%{name}
 %{_bindir}/*
-%_mandir/man?/*
+%doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
 
@@ -245,22 +240,6 @@ This package provides the PHP extension for %{name}.
 %{_libdir}/graphviz/php
 %{_libdir}/php/modules/gv.so
 %{_datadir}/php/gv.php
-%endif
-
-#-------------------------------------------------------------------------
-
-%if %{with python2}
-%package -n python2-graphviz
-Summary:        Graphviz bindings for python
-Group:          System/Libraries
-BuildRequires: python2-devel
-
-%description -n python2-graphviz
-This package provides the Python2 extension for %{name}.
-
-%files -n python2-graphviz
-%{_libdir}/graphviz/python2/*
-%{_libdir}/python2*/site-packages/*
 %endif
 
 #-------------------------------------------------------------------------
@@ -447,7 +426,7 @@ export CXX=g++
 %if !%with bootstrap
 	--enable-swig \
 	--enable-perl \
-	--enable-python2 \
+	--disable-python2 \
 	--enable-python3 \
 %endif
 %if %{with java}
@@ -470,11 +449,7 @@ export CXX=g++
 %else
 	--disable-ruby \
 %endif
-%if %{with python2}
-	--enable-python27 \
-%else
 	--disable-python27 \
-%endif
 %if %{with python}
 	--enable-python \
 	--enable-python34 \
