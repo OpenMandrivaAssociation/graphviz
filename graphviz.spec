@@ -6,7 +6,7 @@
 
 %bcond_without static
 %bcond_with libr
-%bcond_without bootstrap
+%bcond_with bootstrap
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
@@ -15,7 +15,8 @@
 %bcond_with python
 %else
 %bcond_without java
-%bcond_without php
+# FIXME php needs to be adapted to 8.1
+%bcond_with php
 %bcond_without ocaml
 %bcond_without ruby
 %bcond_without python
@@ -46,7 +47,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	2.50.0
+Version:	3.0.0
 %if ! 0%snapshot
 Release:	1
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -111,6 +112,8 @@ of graphs (as in nodes and edges, not as in barcharts).
 %doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
+%exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
+%exclude %{_libdir}/graphviz/libgvplugin_gtk.so*
 
 #-------------------------------------------------------------------------
 
@@ -244,6 +247,22 @@ This package provides the PHP extension for %{name}.
 
 #-------------------------------------------------------------------------
 
+%bcond_without go
+%if %with go
+%package  -n go-graphviz
+Summary:	Graphviz bindings for go
+Group:		System/Libraries
+BuildRequires:	golang
+
+%description -n go-graphviz
+This package provides the Go extension for %{name}.
+
+%files -n go-graphviz
+%{_libdir}/graphviz/go
+%endif
+
+#-------------------------------------------------------------------------
+
 %if %{with python}
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
@@ -254,6 +273,7 @@ BuildRequires: python-devel
 This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
+%{_libdir}/graphviz/python
 %{_libdir}/graphviz/python3/*
 %{_libdir}/python3*/site-packages/*
 %endif
@@ -312,7 +332,6 @@ This package provides the Tcl extension for %{name}.
 Summary:	Graphviz bindings for java
 Group:		System/Libraries
 BuildRequires:	java-devel
-BuildRequires:	jruby-devel
 
 %description -n java-graphviz
 This package provides the Java extension for %{name}.
@@ -389,6 +408,18 @@ Static development package for %{name}.
 %{_libdir}/*.a
 
 %endif
+
+#-------------------------------------------------------------------------
+
+%package gtk
+Summary:	GTK output plugin for graphviz
+
+%description gtk
+GTK output plugin for graphviz
+
+%files gtk
+%{_libdir}/graphviz/libgvplugin_gdk.so*
+%{_libdir}/graphviz/libgvplugin_gtk.so*
 
 #-------------------------------------------------------------------------
 
