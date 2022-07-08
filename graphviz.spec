@@ -47,7 +47,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	3.0.0
+Version:	5.0.0
 %if ! 0%snapshot
 Release:	1
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -436,10 +436,10 @@ sed -i -e 's,I/usr/lib64,I%{_libdir},g' tclpkg/gv/Makefile.am
 rm -rf libltdl
 
 %build
-#export CC=%{__cc}
-#export CXX=%{__cxx}
-export CC=gcc
-export CXX=g++
+export CC=%{__cc}
+export CXX=%{__cxx}
+#export CC=gcc
+#export CXX=g++
 ./autogen.sh
 
 %configure \
@@ -502,7 +502,6 @@ export CXX=g++
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}
-mv %{buildroot}%{_datadir}/%{name}/doc %{buildroot}%{_docdir}/%{name}
 %if !%without bootstrap
 mv %{buildroot}%{_datadir}/%{name}/demo %{buildroot}%{_docdir}/%{name}
 %endif
