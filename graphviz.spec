@@ -47,7 +47,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	7.0.0
+Version:	7.0.1
 %if ! 0%snapshot
 Release:	1
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
