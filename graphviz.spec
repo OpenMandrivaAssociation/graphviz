@@ -42,17 +42,16 @@
 %define devname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
 
-%define snapshot %{nil}
+#define snapshot %{nil}
 %global __requires_exclude_from %{?__requires_exclude_from:%__requires_exclude_from|}^%{_docdir}
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	7.0.1
-%if ! 0%snapshot
-Release:	1
+Version:	7.0.2
+Release:	%{?snapshot:0.%{snapshot}.}1
+%if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 %else
-Release:	1.%{snapshot}.1
 Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
@@ -325,9 +324,6 @@ This package provides the Tcl extension for %{name}.
 #-------------------------------------------------------------------------
 # start of bcond_java
 %if %with java
-%define jdk_path %{_prefix}/lib/jvm/java
-%define java_includes %{_includedir}/libgcj
-
 %package -n java-graphviz
 Summary:	Graphviz bindings for java
 Group:		System/Libraries
@@ -424,7 +420,7 @@ GTK output plugin for graphviz
 #-------------------------------------------------------------------------
 
 %prep
-%if 0%snapshot
+%if 0%{?snapshot:1}
 %setup -qn %{name}-%{snapshot}
 %else
 %setup -qn %{name}-%{version}
@@ -441,6 +437,10 @@ export CXX=%{__cxx}
 #export CC=gcc
 #export CXX=g++
 ./autogen.sh
+
+%if %{with java}
+. %{_sysconfdir}/profile.d/90java.sh
+%endif
 
 %configure \
 	--with-x \
@@ -462,6 +462,7 @@ export CXX=%{__cxx}
 %endif
 %if %{with java}
 	--enable-java \
+	--with-javaincludedir=$JAVA_HOME/include \
 %else
 	--disable-java \
 %endif
