@@ -1,0 +1,24 @@
+diff -up graphviz-8.0.2/configure.ac.omv~ graphviz-8.0.2/configure.ac
+--- graphviz-8.0.2/configure.ac.omv~	2023-04-12 04:00:42.768466758 +0200
++++ graphviz-8.0.2/configure.ac	2023-04-12 04:00:42.825467266 +0200
+@@ -721,7 +721,7 @@ else
+           [AS_HELP_STRING([--with-javalibdir=DIR],[use JAVA libraries from DIR])],
+           [JAVA_LIBS="$withval"])
+ 	save_CPPFLAGS=$CPPFLAGS
+-        CPPFLAGS="$CPPFLAGS $JAVA_INCLUDES"
++        CPPFLAGS="$CPPFLAGS $JAVA_INCLUDES $JAVA_INCLUDES/linux"
+         AC_CHECK_HEADER(jni.h,,[
+             use_java="No (missing header)"
+   	    JAVA=
+diff -up graphviz-8.0.2/tclpkg/gv/Makefile.am.omv~ graphviz-8.0.2/tclpkg/gv/Makefile.am
+--- graphviz-8.0.2/tclpkg/gv/Makefile.am.omv~	2023-04-12 04:08:43.193810792 +0200
++++ graphviz-8.0.2/tclpkg/gv/Makefile.am	2023-04-12 04:08:57.857944806 +0200
+@@ -92,7 +92,7 @@ nodist_libgv_java_la_SOURCES = gv_java.c
+ libgv_java_la_SOURCES = $(BASESOURCES) gv_java_init.c
+ libgv_java_la_LIBADD = $(BASELIBS) $(JAVA_LIBS)
+ libgv_java_la_LDFLAGS = -module -avoid-version $(JNI_EXTRA_LDFLAGS)
+-libgv_java_la_CPPFLAGS = $(BASECPPFLAGS) $(SWIGJAVA_CPPFLAGS) $(JAVA_INCLUDES)
++libgv_java_la_CPPFLAGS = $(BASECPPFLAGS) $(SWIGJAVA_CPPFLAGS) $(JAVA_INCLUDES) $(JAVA_INCLUDES)/linux
+ $(JAVA_data): gv_java.cpp
+ gv_java.cpp: gv.i
+ 	$(SWIG) -package org.graphviz -java -c++ -o $@ $(srcdir)/gv.i

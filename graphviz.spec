@@ -47,7 +47,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	7.0.2
+Version:	8.0.2
 Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -55,6 +55,7 @@ Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{ve
 Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
+Patch1:		graphviz-8.0.2-java-detection.patch
 
 Group:		Graphics
 License:	Common Public License
@@ -272,7 +273,6 @@ BuildRequires: python-devel
 This package provides the Python extension for %{name}.
 
 %files -n python-graphviz
-%{_libdir}/graphviz/python
 %{_libdir}/graphviz/python3/*
 %{_libdir}/python3*/site-packages/*
 %endif
