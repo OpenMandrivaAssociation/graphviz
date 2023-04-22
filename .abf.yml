@@ -1,2 +1,3 @@
 sources:
-  graphviz-8.0.3.tar.bz2: 977b554adfa4ad9dd29abc95fab497c9dfd433bc
+  files-before-rpm: 35b81468e0b569a91ddfd8d8133a845d438ebc51
+  graphviz-8.0.4.tar.bz2: 223901c4446d72428975b20c09c4ad0c1a761a29
