@@ -101,6 +101,7 @@ BuildRequires:	ruby-devel
 %if %{with python}
 BuildRequires:	pkgconfig(python3)
 %endif
+Obsoletes:	%{liblab_gamut}
 
 %description
 A collection of tools for the manipulation and layout
@@ -198,18 +199,6 @@ This package provides the xdot shared library for %{name}.
 
 %files -n %{libxdot}
 %{_libdir}/libxdot.so.%{xdot_major}*
-
-#-------------------------------------------------------------------------
-
-%package -n %{liblab_gamut}
-Group:          System/Libraries
-Summary:        Shared library for %{name}
-
-%description -n %{liblab_gamut}
-This package provides the lab_gamut  shared library for %{name}.
-
-%files -n %{liblab_gamut}
-%{_libdir}/liblab_gamut.so.%{lab_gamut_major}*
 
 #-------------------------------------------------------------------------
 
@@ -415,8 +404,6 @@ GTK output plugin for graphviz
 
 %files gtk
 %{_libdir}/graphviz/libgvplugin_gdk.so*
-%{_libdir}/graphviz/libgvplugin_gtk.so*
-
 #-------------------------------------------------------------------------
 
 %prep
