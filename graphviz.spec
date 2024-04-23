@@ -214,7 +214,6 @@ This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
 %{_libdir}/graphviz/lua
-%{_libdir}/lua/%{lua_version}/gv.so
 
 #-------------------------------------------------------------------------
 
