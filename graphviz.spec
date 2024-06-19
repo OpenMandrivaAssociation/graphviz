@@ -10,14 +10,12 @@
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
-%bcond_with ocaml
 %bcond_with ruby
 %bcond_with python
 %else
 %bcond_without java
 # FIXME php needs to be adapted to 8.1
 %bcond_with php
-%bcond_without ocaml
 %bcond_without ruby
 %bcond_without python
 %endif
@@ -47,7 +45,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	9.0.0
+Version:	11.0.0
 Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -101,6 +99,7 @@ BuildRequires:	ruby-devel
 %if %{with python}
 BuildRequires:	pkgconfig(python3)
 %endif
+Obsoletes:	%{liblab_gamut}
 
 %description
 A collection of tools for the manipulation and layout
@@ -112,7 +111,7 @@ of graphs (as in nodes and edges, not as in barcharts).
 %doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
-%exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
+#exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
 %exclude %{_libdir}/graphviz/libgvplugin_gtk.so*
 
 #-------------------------------------------------------------------------
@@ -201,18 +200,6 @@ This package provides the xdot shared library for %{name}.
 
 #-------------------------------------------------------------------------
 
-%package -n %{liblab_gamut}
-Group:          System/Libraries
-Summary:        Shared library for %{name}
-
-%description -n %{liblab_gamut}
-This package provides the lab_gamut  shared library for %{name}.
-
-%files -n %{liblab_gamut}
-%{_libdir}/liblab_gamut.so.%{lab_gamut_major}*
-
-#-------------------------------------------------------------------------
-
 %define lua_version %(if [ -x /usr/bin/lua ]; then lua -v 2>&1| awk '{print $2}' | awk -F. '{print $1 "." $2}'; fi)
 
 %package -n lua-graphviz
@@ -225,7 +212,7 @@ This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
 %{_libdir}/graphviz/lua
-%{_libdir}/lua/%{lua_version}/gv.so
+/lua/gv.so
 
 #-------------------------------------------------------------------------
 
@@ -353,20 +340,6 @@ This package provides the R extension for %{name}.
 %endif
 #-------------------------------------------------------------------------
 
-%if %with ocaml
-%package -n ocaml-graphviz
-Summary:	Graphviz bindings for OCaml
-Group:		System/Libraries
-BuildRequires:	ocaml
-
-%description -n ocaml-graphviz
-This package provides the OCaml extension for %{name}.
-
-%files -n ocaml-graphviz
-%{_libdir}/graphviz/ocaml
-#-------------------------------------------------------------------------
-%endif
-
 %package -n %{devname}
 Summary:	Development package for %{name}
 Group:		Development/Other
@@ -415,8 +388,6 @@ GTK output plugin for graphviz
 
 %files gtk
 %{_libdir}/graphviz/libgvplugin_gdk.so*
-%{_libdir}/graphviz/libgvplugin_gtk.so*
-
 #-------------------------------------------------------------------------
 
 %prep
