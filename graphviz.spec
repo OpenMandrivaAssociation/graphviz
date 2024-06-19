@@ -113,7 +113,7 @@ of graphs (as in nodes and edges, not as in barcharts).
 %doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
-%exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
+#exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
 %exclude %{_libdir}/graphviz/libgvplugin_gtk.so*
 
 #-------------------------------------------------------------------------
@@ -351,7 +351,7 @@ BuildRequires:	ocaml
 This package provides the OCaml extension for %{name}.
 
 %files -n ocaml-graphviz
-%{_libdir}/graphviz/ocaml
+#{_libdir}/graphviz/ocaml
 #-------------------------------------------------------------------------
 %endif
 
