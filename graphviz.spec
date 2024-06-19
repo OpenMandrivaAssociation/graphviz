@@ -10,14 +10,12 @@
 %if %{with bootstrap}
 %bcond_with java
 %bcond_with php
-%bcond_with ocaml
 %bcond_with ruby
 %bcond_with python
 %else
 %bcond_without java
 # FIXME php needs to be adapted to 8.1
 %bcond_with php
-%bcond_without ocaml
 %bcond_without ruby
 %bcond_without python
 %endif
@@ -214,6 +212,7 @@ This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
 %{_libdir}/graphviz/lua
+/lua/gv.so
 
 #-------------------------------------------------------------------------
 
@@ -340,20 +339,6 @@ This package provides the R extension for %{name}.
 
 %endif
 #-------------------------------------------------------------------------
-
-%if %with ocaml
-%package -n ocaml-graphviz
-Summary:	Graphviz bindings for OCaml
-Group:		System/Libraries
-BuildRequires:	ocaml
-
-%description -n ocaml-graphviz
-This package provides the OCaml extension for %{name}.
-
-%files -n ocaml-graphviz
-#{_libdir}/graphviz/ocaml
-#-------------------------------------------------------------------------
-%endif
 
 %package -n %{devname}
 Summary:	Development package for %{name}
