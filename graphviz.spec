@@ -45,7 +45,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	11.0.0
+Version:	12.0.0
 Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -111,8 +111,6 @@ of graphs (as in nodes and edges, not as in barcharts).
 %doc %{_mandir}/man?/*
 %{_datadir}/graphviz
 %{_libdir}/graphviz/*.so.*
-#exclude %{_libdir}/graphviz/libgvplugin_gdk.so*
-%exclude %{_libdir}/graphviz/libgvplugin_gtk.so*
 
 #-------------------------------------------------------------------------
 
