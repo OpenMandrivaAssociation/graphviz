@@ -65,6 +65,7 @@ BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
+BuildRequires:	qmake-qt6
 # jpeg:          No (only required by internal libgd)
 #BuildRequires:	jpeg-devel
 BuildRequires:	libltdl-devel
@@ -74,6 +75,7 @@ BuildRequires:	pkgconfig(freetype2)
 %if !%{with bootstrap}
 BuildRequires:	pkgconfig(glut)
 BuildRequires:	pkgconfig(gtk+-2.0)
+BuildRequires:	pkgconfig(gdk-3.0)
 BuildRequires:	pkgconfig(gtkglext-1.0)
 BuildRequires:	pkgconfig(gtkgl-2.0)
 BuildRequires:	pkgconfig(librsvg-2.0)
@@ -411,6 +413,7 @@ export CXX=%{__cxx}
 . %{_sysconfdir}/profile.d/90java.sh
 %endif
 
+export PATH=$PATH:%{_qtdir}/bin
 %configure \
 	--with-x \
 %if %without static
