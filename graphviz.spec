@@ -66,6 +66,10 @@ BuildRequires:	swig >= 1.3.29
 BuildRequires:	gd-devel >= 2.0.34
 BuildRequires:	gettext-devel >= 0.14.5
 BuildRequires:	qmake-qt6
+BuildRequires:	pkgconfig(Qt6Core)
+BuildRequires:	pkgconfig(Qt6Widgets)
+BuildRequires:	pkgconfig(Qt6PrintSupport)
+BuildRequires:	pkgconfig(Qt6Gui)
 # jpeg:          No (only required by internal libgd)
 #BuildRequires:	jpeg-devel
 BuildRequires:	libltdl-devel
