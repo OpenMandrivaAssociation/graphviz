@@ -57,7 +57,7 @@ Patch1:		graphviz-8.0.2-java-detection.patch
 
 Group:		Graphics
 License:	Common Public License
-Url:		http://www.graphviz.org
+Url:		https://www.graphviz.org
 Source1:	%{name}.rpmlintrc
 
 BuildRequires:	bison >= 2.3
