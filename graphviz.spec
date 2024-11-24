@@ -46,7 +46,7 @@
 Summary:	Graph visualization tools
 Name:		graphviz
 Version:	12.2.0
-Release:	%{?snapshot:0.%{snapshot}.}2
+Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 %else
