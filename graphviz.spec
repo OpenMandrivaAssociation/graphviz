@@ -20,22 +20,26 @@
 %bcond_without python
 %endif
 
-%define cdt_major 5
-%define cgraph_major 6
+%define cdt_major 6
+%define cgraph_major 8
 %define graph_major 5
-%define gvc_major 6
+%define gvc_major 7
 %define gvpr_major 2
 %define pathplan_major 4
 %define xdot_major 4
-%define lab_gamut_major 1
 
-%define libcdt %mklibname cdt %{cdt_major}
-%define libcgraph %mklibname cgraph %{cgraph_major}
-%define libgvc %mklibname gvc %{gvc_major}
-%define libgvpr %mklibname gvpr %{gvpr_major}
-%define libpathplan %mklibname pathplan %{pathplan_major}
-%define libxdot %mklibname xdot %{xdot_major}
-%define liblab_gamut %mklibname lab_gamut %{lab_gamut_major}
+%define oldlibcdt %mklibname cdt 5
+%define libcdt %mklibname cdt
+%define oldlibcgraph %mklibname cgraph 6
+%define libcgraph %mklibname cgraph
+%define oldlibgvc %mklibname gvc 6
+%define libgvc %mklibname gvc
+%define oldlibgvpr %mklibname gvpr 2
+%define libgvpr %mklibname gvpr
+%define oldlibpathplan %mklibname pathplan 4
+%define libpathplan %mklibname pathplan
+%define oldlibxdot %mklibname xdot 4
+%define libxdot %mklibname xdot
 #%%define libgv %mklibname gv
 %define devname %mklibname graphviz -d
 %define staticname %mklibname graphviz -d -s
@@ -45,7 +49,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	12.2.1
+Version:	14.0.0
 Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
@@ -105,7 +109,6 @@ BuildRequires:	ruby-devel
 %if %{with python}
 BuildRequires:	pkgconfig(python3)
 %endif
-Obsoletes:	%{liblab_gamut}
 
 %description
 A collection of tools for the manipulation and layout
@@ -135,6 +138,8 @@ The %{name} documentation.
 %package -n %{libcdt}
 Group:		System/Libraries
 Summary:	Shared library for %{name}
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibcdt}
 
 %description -n %{libcdt}
 This package provides the cdt shared library for %{name}.
@@ -147,6 +152,8 @@ This package provides the cdt shared library for %{name}.
 %package -n %{libcgraph}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibcgraph}
 
 %description -n %{libcgraph}
 This package provides the cgraph shared library for %{name}.
@@ -159,6 +166,8 @@ This package provides the cgraph shared library for %{name}.
 %package -n %{libgvc}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibgvc}
 
 %description -n %{libgvc}
 This package provides the gvc shared library for %{name}.
@@ -171,6 +180,8 @@ This package provides the gvc shared library for %{name}.
 %package -n %{libgvpr}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibgvpr}
 
 %description -n %{libgvpr}
 This package provides the gvpr shared library for %{name}.
@@ -183,6 +194,8 @@ This package provides the gvpr shared library for %{name}.
 %package -n %{libpathplan}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibpathplan}
 
 %description -n %{libpathplan}
 This package provides the pathplan shared library for %{name}.
@@ -195,6 +208,8 @@ This package provides the pathplan shared library for %{name}.
 %package -n %{libxdot}
 Summary:	Shared library for %{name}
 Group:		System/Libraries
+# Renamed 2025/09/24 after 6.0
+%rename %{oldlibxdot}
 
 %description -n %{libxdot}
 This package provides the xdot shared library for %{name}.
@@ -304,6 +319,9 @@ Summary:	Graphviz bindings for tcl
 Group:		System/Libraries
 BuildRequires:	pkgconfig(tcl)
 BuildRequires:	pkgconfig(tk)
+# If a previous version's development files are installed, the TCL
+# library links against the previous version of libgvc
+BuildConflicts:	%{devname} < %{EVRD}
 
 %description -n tcl-graphviz
 This package provides the Tcl extension for %{name}.
