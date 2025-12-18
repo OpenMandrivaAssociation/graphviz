@@ -49,8 +49,8 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	14.0.5
-Release:	%{?snapshot:0.%{snapshot}.}3
+Version:	14.1.1
+Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
 %else
@@ -64,6 +64,10 @@ License:	Common Public License
 Url:		https://www.graphviz.org
 Source1:	%{name}.rpmlintrc
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	make
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
 BuildRequires:	swig >= 1.3.29
@@ -427,8 +431,9 @@ rm -rf libltdl
 %build
 export CC=%{__cc}
 export CXX=%{__cxx}
-#export CC=gcc
-#export CXX=g++
+# There's a weird incompatibility with slibtoolize, caused by calling
+# obscure autoconf macros
+export LIBTOOLIZE=libtoolize
 ./autogen.sh
 
 %if %{with java}
