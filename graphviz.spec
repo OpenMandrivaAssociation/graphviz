@@ -64,6 +64,7 @@ License:	Common Public License
 Url:		https://www.graphviz.org
 Source1:	%{name}.rpmlintrc
 
+BuildRequires:	slibtool
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	libtool-base
