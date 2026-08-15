@@ -1,0 +1,80 @@
+diff -up -r graphviz-16.0.0.orig/cmd/gvedit/gvedit.pro.in graphviz-16.0.0/cmd/gvedit/gvedit.pro.in
+--- graphviz-16.0.0.orig/cmd/gvedit/gvedit.pro.in	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/cmd/gvedit/gvedit.pro.in	2026-08-15 23:58:03.686022024 +0200
+@@ -4,7 +4,7 @@ LIBS += \
+         -L$(top_builddir)/lib/gvc/.libs -lgvc \
+         -L$(top_builddir)/lib/cgraph/.libs -lcgraph \
+         -L$(top_builddir)/lib/cdt/.libs -lcdt \
+-        -lexpat -lz -lltdl
++        -lexpat -lz -lsltdl
+ 
+ INCLUDEPATH += \
+ 	../../lib/gvc \
+diff -up -r graphviz-16.0.0.orig/configure.ac graphviz-16.0.0/configure.ac
+--- graphviz-16.0.0.orig/configure.ac	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/configure.ac	2026-08-15 23:58:03.639222113 +0200
+@@ -380,31 +380,24 @@ AC_CHECK_FUNCS([drand48 srand48 setmode
+ AC_REPLACE_FUNCS([strcasestr])
+ 
+ dnl -----------------------------------
+-dnl libtool ltdl on-demand plugin loading
++dnl sltdl on-demand plugin loading (libltdl replacement)
+ 
+ save_LIBS="$LIBS"
+ LT_INIT([dlopen])
+-LT_CONFIG_LTDL_DIR([libltdl])
+-LTDL_INIT
+ 
+ AC_ARG_ENABLE(ltdl,
+   [AS_HELP_STRING([--enable-ltdl],[support on-demand plugin loading])])
+ if test "$enable_ltdl" != "no"; then
++  PKG_CHECK_MODULES([SLTDL], [sltdl], [],
++	[AC_MSG_ERROR([sltdl is required for on-demand plugin loading])])
+   AC_DEFINE(ENABLE_LTDL,1,[Define if you want on-demand plugin loading])
+   use_ltdl="Yes"
+-  # The lt_dladvise_init symbol was added with libtool-2.2
+-  if test "$with_included_ltdl" != "yes"; then
+-    save_CFLAGS="$CFLAGS"
+-    save_LDFLAGS="$LDFLAGS"
+-    CFLAGS="$CFLAGS $LTDLINCL"
+-    LDFLAGS="$LDFLAGS $LIBLTDL"
+-    AC_CHECK_LIB([ltdl], [lt_dladvise_init], [],
+-	[AC_MSG_ERROR([installed libltdl is too old])])
+-    LDFLAGS="$save_LDFLAGS"
+-    CFLAGS="$save_CFLAGS"
+-  fi
++  LIBLTDL="$SLTDL_LIBS"
++  INCLTDL="$SLTDL_CFLAGS"
+ else
+   use_ltdl="No (disabled)"
++  LIBLTDL=
++  INCLTDL=
+ fi
+ AM_CONDITIONAL(ENABLE_LTDL, [test "$enable_ltdl" != "no"])
+ AC_SUBST([INCLTDL])
+diff -up -r graphviz-16.0.0.orig/lib/common/Makefile.am graphviz-16.0.0/lib/common/Makefile.am
+--- graphviz-16.0.0.orig/lib/common/Makefile.am	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/lib/common/Makefile.am	2026-08-15 23:58:03.688768899 +0200
+@@ -3,7 +3,6 @@
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/lib \
+ 	-I$(top_builddir)/lib \
+-	-I$(top_srcdir)/libltdl \
+ 	-I$(top_srcdir)/lib/gvc \
+ 	-I$(top_srcdir)/lib/pack \
+ 	-I$(top_srcdir)/lib/pathplan \
+diff -up -r graphviz-16.0.0.orig/lib/gvc/gvplugin.c graphviz-16.0.0/lib/gvc/gvplugin.c
+--- graphviz-16.0.0.orig/lib/gvc/gvplugin.c	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/lib/gvc/gvplugin.c	2026-08-15 23:58:03.676535042 +0200
+@@ -17,7 +17,10 @@
+ #include	<unistd.h>
+ 
+ #ifdef ENABLE_LTDL
+-#include	<ltdl.h>
++#include	<sltdl/sltdl.h>
++#ifndef LTDL_H
++#define LTDL_H 1
++#endif
+ #endif
+ 
+ #include        <common/types.h>

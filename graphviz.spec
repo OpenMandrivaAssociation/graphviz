@@ -58,6 +58,7 @@ Source0:	%{name}-%{snapshot}.tar.gz
 %endif
 Patch0:		graphviz-2.40.1-perl-headers.patch
 Patch1:		graphviz-8.0.2-java-detection.patch
+Patch2:		graphviz-16.0.0-sltdl.patch
 
 Group:		Graphics
 License:	Common Public License
@@ -81,7 +82,7 @@ BuildRequires:	pkgconfig(Qt6PrintSupport)
 BuildRequires:	pkgconfig(Qt6Gui)
 # jpeg:          No (only required by internal libgd)
 #BuildRequires:	jpeg-devel
-BuildRequires:	libltdl-devel
+BuildRequires:	pkgconfig(sltdl)
 BuildRequires:	pkgconfig(expat)
 BuildRequires:	pkgconfig(fontconfig)
 BuildRequires:	pkgconfig(freetype2)
