@@ -431,6 +431,9 @@ rm -rf libltdl
 %build
 export CC=%{__cc}
 export CXX=%{__cxx}
+# slibtool.m4 is not on the system aclocal path; install it before autoreconf.
+export LIBTOOLIZE=slibtoolize
+slibtoolize --copy --force --install
 ./autogen.sh
 
 %if %{with java}
