@@ -68,7 +68,6 @@ Source1:	%{name}.rpmlintrc
 BuildRequires:	slibtool
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	libtool-base
 BuildRequires:	make
 BuildRequires:	bison >= 2.3
 BuildRequires:	flex >= 2.5.4a
@@ -237,7 +236,6 @@ This package provides the Lua extension for %{name}.
 
 %files -n lua-graphviz
 %{_libdir}/graphviz/lua
-/lua/gv.so
 
 #-------------------------------------------------------------------------
 
@@ -433,9 +431,6 @@ rm -rf libltdl
 %build
 export CC=%{__cc}
 export CXX=%{__cxx}
-# There's a weird incompatibility with slibtoolize, caused by calling
-# obscure autoconf macros
-export LIBTOOLIZE=libtoolize
 ./autogen.sh
 
 %if %{with java}
@@ -497,10 +492,12 @@ export PATH=$PATH:%{_qtdir}/bin
 	--disable-io \
 	--disable-dependency-tracking
 
-%make_build TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11"
+%make_build TK_LIB_SPEC="-ltcl -ltk" LIBS="-lX11 -lz"
 
 %install
 %make_install
+# lua.pc has no libdir here, so the system-binding hook would install to /lua
+rm -rf %{buildroot}/lua
 
 # fix documentation
 install -d -m 755 %{buildroot}%{_docdir}

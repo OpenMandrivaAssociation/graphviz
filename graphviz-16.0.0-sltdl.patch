@@ -1,6 +1,6 @@
 diff -up -r graphviz-16.0.0.orig/cmd/gvedit/gvedit.pro.in graphviz-16.0.0/cmd/gvedit/gvedit.pro.in
 --- graphviz-16.0.0.orig/cmd/gvedit/gvedit.pro.in	2026-08-14 12:18:18.000000000 +0200
-+++ graphviz-16.0.0/cmd/gvedit/gvedit.pro.in	2026-08-15 23:58:03.686022024 +0200
++++ graphviz-16.0.0/cmd/gvedit/gvedit.pro.in	2026-08-16 00:11:02.468048387 +0200
 @@ -4,7 +4,7 @@ LIBS += \
          -L$(top_builddir)/lib/gvc/.libs -lgvc \
          -L$(top_builddir)/lib/cgraph/.libs -lcgraph \
@@ -10,20 +10,75 @@ diff -up -r graphviz-16.0.0.orig/cmd/gvedit/gvedit.pro.in graphviz-16.0.0/cmd/gv
  
  INCLUDEPATH += \
  	../../lib/gvc \
+diff -up -r graphviz-16.0.0.orig/cmd/tools/Makefile.am graphviz-16.0.0/cmd/tools/Makefile.am
+--- graphviz-16.0.0.orig/cmd/tools/Makefile.am	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/cmd/tools/Makefile.am	2026-08-16 00:13:42.512372817 +0200
+@@ -1,5 +1,6 @@
+ ## Process this file with automake to produce Makefile.in
+ 
++AM_YFLAGS = -Wno-yacc -d
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/lib \
+ 	-I$(top_srcdir)/lib/cgraph \
+@@ -10,7 +11,7 @@ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/lib/common
+ 
+ noinst_HEADERS = colortbl.h colorxlate.h convert.h mmio.h matrix_market.h \
+-	graph_generator.h gml2gv.h gmlparse.h openFile.h
++	graph_generator.h gml2gv.h openFile.h
+ if ENABLE_STATIC
+ bin_PROGRAMS = gc gvcolor gxl2gv acyclic nop ccomps sccmap tred \
+ 	unflatten gvpack gvpack_static dijkstra bcomps mm2gv gvgen gml2gv gv2gml graphml2gv
+@@ -183,13 +184,11 @@ gv2gml_LDADD = \
+ 	$(top_builddir)/lib/cgraph/libcgraph.la \
+ 	$(top_builddir)/lib/util/libutil_C.la
+ 
+-gml2gv_SOURCES = gml2gv.c gmlparse.y gmlscan.l
++gml2gv_SOURCES = gml2gv.c gmlparse.y gmlscan.c
+ 
+-gmlparse.c gmlparse.h: $(top_srcdir)/cmd/tools/gmlparse.y
+-	$(YACC) -Wno-yacc -dv $(top_srcdir)/cmd/tools/gmlparse.y -o gmlparse.c
++BUILT_SOURCES = gmlparse.h gmlscan.c
+ 
+-gmlparse.$(OBJEXT) gmlparse.lo gmlscan.$(OBJEXT) gmlscan.lo: \
+-  gmlscan.c gmlparse.h
++gmlparse.$(OBJEXT) gmlparse.lo gmlscan.$(OBJEXT) gmlscan.lo: gmlparse.h
+ 
+ gmlscan.c: $(top_srcdir)/cmd/tools/gmlscan.l
+ 	$(LEX) --case-insensitive --outfile=$@ $(top_srcdir)/cmd/tools/gmlscan.l
 diff -up -r graphviz-16.0.0.orig/configure.ac graphviz-16.0.0/configure.ac
 --- graphviz-16.0.0.orig/configure.ac	2026-08-14 12:18:18.000000000 +0200
-+++ graphviz-16.0.0/configure.ac	2026-08-15 23:58:03.639222113 +0200
-@@ -380,31 +380,24 @@ AC_CHECK_FUNCS([drand48 srand48 setmode
++++ graphviz-16.0.0/configure.ac	2026-08-16 00:22:01.213801547 +0200
+@@ -188,6 +188,9 @@ AM_CONDITIONAL(ENABLE_STATIC, [test "$en
+ AC_ARG_ENABLE(shared,
+         [AS_HELP_STRING([--enable-shared],[build shared executable])])
+ if test "$enable_shared" != "no"; then
++	# slibtool's AC_ENABLE_SHARED only records an option for LT_INIT
++	# and does not set enable_shared=yes; GNU libtool does both.
++	enable_shared=yes
+ 	AC_ENABLE_SHARED
+         use_shared="Yes"
+ 	case "${host_os}" in
+@@ -210,7 +213,7 @@ AC_PROG_YACC
+ AC_PROG_EGREP
+ AC_PROG_INSTALL
+ AC_PROG_LN_S
+-LT_INIT
++LT_INIT([dlopen])
+ 
+ AC_ARG_ENABLE([man-pdfs],
+   [AS_HELP_STRING([--enable-man-pdfs], [Generate PDFs of man pages (default: auto)])])
+@@ -380,36 +383,25 @@ AC_CHECK_FUNCS([drand48 srand48 setmode
  AC_REPLACE_FUNCS([strcasestr])
  
  dnl -----------------------------------
 -dnl libtool ltdl on-demand plugin loading
-+dnl sltdl on-demand plugin loading (libltdl replacement)
- 
- save_LIBS="$LIBS"
- LT_INIT([dlopen])
+-
+-save_LIBS="$LIBS"
+-LT_INIT([dlopen])
 -LT_CONFIG_LTDL_DIR([libltdl])
 -LTDL_INIT
++dnl sltdl on-demand plugin loading (libltdl replacement)
  
  AC_ARG_ENABLE(ltdl,
    [AS_HELP_STRING([--enable-ltdl],[support on-demand plugin loading])])
@@ -52,10 +107,57 @@ diff -up -r graphviz-16.0.0.orig/configure.ac graphviz-16.0.0/configure.ac
  fi
  AM_CONDITIONAL(ENABLE_LTDL, [test "$enable_ltdl" != "no"])
  AC_SUBST([INCLTDL])
+ AC_SUBST([LIBLTDL])
+-LIBS="$save_LIBS"
+ 
+ dnl -----------------------------------
+ dnl Checks for X header files.
+diff -up -r graphviz-16.0.0.orig/lib/cgraph/Makefile.am graphviz-16.0.0/lib/cgraph/Makefile.am
+--- graphviz-16.0.0.orig/lib/cgraph/Makefile.am	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/lib/cgraph/Makefile.am	2026-08-16 00:12:41.075662768 +0200
+@@ -2,6 +2,7 @@
+ 
+ CGRAPH_VERSION = "10:0:0"
+ 
++AM_YFLAGS = -Wno-yacc -d
+ AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/lib/cdt
+ 
+ if WITH_WIN32
+@@ -20,7 +21,7 @@ endif
+ 
+ libcgraph_C_la_SOURCES = acyclic.c agerror.c apply.c attr.c edge.c \
+ 	graph.c grammar.y id.c imap.c ingraphs.c io.c node.c node_induce.c \
+-	obj.c rec.c refstr.c scan.l subg.c tred.c unflatten.c utils.c write.c
++	obj.c rec.c refstr.c scan.c subg.c tred.c unflatten.c utils.c write.c
+ 
+ libcgraph_la_LDFLAGS = -version-info $(CGRAPH_VERSION) -no-undefined
+ libcgraph_la_SOURCES = $(libcgraph_C_la_SOURCES)
+@@ -28,14 +29,13 @@ libcgraph_la_LIBADD = \
+   $(top_builddir)/lib/cdt/libcdt.la \
+   $(top_builddir)/lib/util/libutil_C.la
+ 
+-scan.$(OBJEXT) scan.lo: scan.c grammar.h
++BUILT_SOURCES = grammar.h scan.c
++
++scan.$(OBJEXT) scan.lo: grammar.h
+ 
+ scan.c: $(top_srcdir)/lib/cgraph/scan.l
+ 	$(LEX) --case-insensitive --outfile=$@ $(top_srcdir)/lib/cgraph/scan.l
+ 
+-grammar.c grammar.h: $(top_srcdir)/lib/cgraph/grammar.y
+-	$(YACC) -Wno-yacc -dv --output=grammar.c $(top_srcdir)/lib/cgraph/grammar.y
+-
+ .3.3.pdf:
+ 	rm -f $@; pdffile=$@; psfile=$${pdffile%pdf}ps; \
+ 	$(GROFF) -Tps -man $< > $$psfile || { rm -f $$psfile; exit 1; }; \
 diff -up -r graphviz-16.0.0.orig/lib/common/Makefile.am graphviz-16.0.0/lib/common/Makefile.am
 --- graphviz-16.0.0.orig/lib/common/Makefile.am	2026-08-14 12:18:18.000000000 +0200
-+++ graphviz-16.0.0/lib/common/Makefile.am	2026-08-15 23:58:03.688768899 +0200
-@@ -3,7 +3,6 @@
++++ graphviz-16.0.0/lib/common/Makefile.am	2026-08-16 00:11:13.382682768 +0200
+@@ -1,9 +1,10 @@
+ ## Process this file with automake to produce Makefile.in
+ 
++AM_YFLAGS = -Wno-yacc -d
++
  AM_CPPFLAGS = \
  	-I$(top_srcdir)/lib \
  	-I$(top_builddir)/lib \
@@ -63,9 +165,62 @@ diff -up -r graphviz-16.0.0.orig/lib/common/Makefile.am graphviz-16.0.0/lib/comm
  	-I$(top_srcdir)/lib/gvc \
  	-I$(top_srcdir)/lib/pack \
  	-I$(top_srcdir)/lib/pathplan \
+@@ -50,11 +51,8 @@ entities.h: $(top_srcdir)/lib/common/ent
+             $(top_srcdir)/lib/common/entities.py
+ 	$(PYTHON3) $(top_srcdir)/lib/common/entities.py "$@"
+ 
+-htmllex.$(OBJEXT) htmllex.lo: htmllex.c htmllex.h htmlparse.h
+-htmlparse.$(OBJEXT) htmlparse.lo: htmlparse.c htmlparse.h
+-
+-htmlparse.c htmlparse.h: $(top_srcdir)/lib/common/htmlparse.y
+-	$(YACC) -Wno-yacc -dv $(top_srcdir)/lib/common/htmlparse.y -o htmlparse.c
++htmllex.$(OBJEXT) htmllex.lo: htmlparse.h
++htmlparse.$(OBJEXT) htmlparse.lo: htmlparse.h
+ 
+ DISTCLEANFILES = colortbl.h entities.h htmlparse.[ch]
+ 
+diff -up -r graphviz-16.0.0.orig/lib/expr/Makefile.am graphviz-16.0.0/lib/expr/Makefile.am
+--- graphviz-16.0.0.orig/lib/expr/Makefile.am	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/lib/expr/Makefile.am	2026-08-16 00:14:29.658093890 +0200
+@@ -1,11 +1,13 @@
+ ## Process this file with automake to produce Makefile.in
+ 
++AM_YFLAGS = -Wno-yacc -d -t
++
+ AM_CPPFLAGS = \
+ 	-I$(top_srcdir)/lib \
+ 	-I$(top_builddir)/lib \
+ 	-I$(top_srcdir)/lib/cdt
+ 
+-noinst_HEADERS = exgram.h exlib.h exop.h exparse.h expr.h
++noinst_HEADERS = exgram.h exlib.h exop.h expr.h
+ noinst_LTLIBRARIES = libexpr_C.la
+ 
+ dist_man_MANS = expr.3
+@@ -26,8 +28,7 @@ libexpr_C_la_LIBADD = \
+ $(libexpr_C_la_OBJECTS) $(libexpr_la_OBJECTS): \
+ 	exparse.h exparse.c exgram.h exop.h
+ 
+-exparse.c exparse.h: $(top_srcdir)/lib/expr/exparse.y
+-	$(YACC) -Wno-yacc -dtv $(top_srcdir)/lib/expr/exparse.y -o exparse.c
++BUILT_SOURCES = exparse.h
+ 
+ .3.3.pdf:
+ 	rm -f $@; pdffile=$@; psfile=$${pdffile%pdf}ps; \
+diff -up -r graphviz-16.0.0.orig/lib/gvc/Makefile.am graphviz-16.0.0/lib/gvc/Makefile.am
+--- graphviz-16.0.0.orig/lib/gvc/Makefile.am	2026-08-14 12:18:18.000000000 +0200
++++ graphviz-16.0.0/lib/gvc/Makefile.am	2026-08-16 00:16:18.298843193 +0200
+@@ -42,6 +42,7 @@ endif
+ if ENABLE_LTDL
+ libgvc_C_la_LIBADD += $(LIBLTDL)
+ endif
++libgvc_C_la_LIBADD += $(Z_LIBS)
+ 
+ libgvc_la_LDFLAGS = -version-info $(GVC_VERSION) -no-undefined
+ libgvc_la_SOURCES = $(libgvc_C_la_SOURCES)
 diff -up -r graphviz-16.0.0.orig/lib/gvc/gvplugin.c graphviz-16.0.0/lib/gvc/gvplugin.c
 --- graphviz-16.0.0.orig/lib/gvc/gvplugin.c	2026-08-14 12:18:18.000000000 +0200
-+++ graphviz-16.0.0/lib/gvc/gvplugin.c	2026-08-15 23:58:03.676535042 +0200
++++ graphviz-16.0.0/lib/gvc/gvplugin.c	2026-08-16 00:11:02.468450802 +0200
 @@ -17,7 +17,10 @@
  #include	<unistd.h>
  
