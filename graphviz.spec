@@ -21,12 +21,12 @@
 %endif
 
 %define cdt_major 6
-%define cgraph_major 8
+%define cgraph_major 10
 %define graph_major 5
 %define gvc_major 7
 %define gvpr_major 2
 %define pathplan_major 4
-%define xdot_major 4
+%define xdot_major 5
 
 %define oldlibcdt %mklibname cdt 5
 %define libcdt %mklibname cdt
@@ -49,7 +49,7 @@
 
 Summary:	Graph visualization tools
 Name:		graphviz
-Version:	15.1.0
+Version:	16.0.0
 Release:	%{?snapshot:0.%{snapshot}.}1
 %if ! 0%{?snapshot:1}
 Source0:	https://gitlab.com/graphviz/graphviz/-/archive/%{version}/graphviz-%{version}.tar.bz2
