@@ -277,7 +277,6 @@ This package provides the Go extension for %{name}.
 %package -n python-graphviz
 Summary:	Graphviz bindings for python
 Group:		System/Libraries
-BuildRequires: python-devel
 
 %description -n python-graphviz
 This package provides the Python extension for %{name}.
