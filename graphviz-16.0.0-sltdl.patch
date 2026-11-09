@@ -117,7 +117,7 @@ diff -up -r graphviz-16.0.0.orig/lib/cgraph/Makefile.am graphviz-16.0.0/lib/cgra
 +++ graphviz-16.0.0/lib/cgraph/Makefile.am	2026-08-16 00:12:41.075662768 +0200
 @@ -2,6 +2,7 @@
  
- CGRAPH_VERSION = "10:0:0"
+ CGRAPH_VERSION = "10:1:0"
  
 +AM_YFLAGS = -Wno-yacc -d
  AM_CPPFLAGS = -I$(top_srcdir)/lib -I$(top_srcdir)/lib/cdt
